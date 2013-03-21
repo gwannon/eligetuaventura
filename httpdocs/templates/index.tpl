@@ -4,31 +4,6 @@
 			<nav class="right">
 			{if $user}
 				<a href="{$logout_url}" data-icon="close" class="button"></a>
-			{else}
-				<fb:login-button></fb:login-button>
-				<div id="fb-root"></div>
-				<script>
-				  window.fbAsyncInit = function() {
-					FB.init({
-					  appId: '{$facebook->getAppID()}',
-					  cookie: true,
-					  xfbml: true,
-					  oauth: true
-					});
-					FB.Event.subscribe('auth.login', function(response) {
-					  window.location.reload();
-					});
-					FB.Event.subscribe('auth.logout', function(response) {
-					  window.location.reload();
-					});
-				  };
-				  (function() {
-					var e = document.createElement('script'); e.async = true;
-					e.src = document.location.protocol +
-					  '//connect.facebook.net/en_US/all.js';
-					document.getElementById('fb-root').appendChild(e);
-				  }());
-				</script>			
 			{/if}
 			</nav>
 		</header>
@@ -122,13 +97,39 @@
 		{else}
 		<article id="presentation" class="active list indented scroll">
 			<ul>
-				<li>Los clásicos libros de "Elige tu propia aventura" ahora en online con un toque de RPG. Logeate con Facebook para poder jugar.</li>
+				<li>Los clásicos libros de "Elige tu propia aventura" ahora en online con un toque de RPG.</li>
+				<li class="center">
+					<small>Logeate con Facebook para poder jugar.</small><br/> <fb:login-button></fb:login-button>
+					<div id="fb-root"></div>
+					<script>
+					  window.fbAsyncInit = function() {
+						FB.init({
+						  appId: '{$facebook->getAppID()}',
+						  cookie: true,
+						  xfbml: true,
+						  oauth: true
+						});
+						FB.Event.subscribe('auth.login', function(response) {
+						  window.location.reload();
+						});
+						FB.Event.subscribe('auth.logout', function(response) {
+						  window.location.reload();
+						});
+					  };
+					  (function() {
+						var e = document.createElement('script'); e.async = true;
+						e.src = document.location.protocol +
+						  '//connect.facebook.net/en_US/all.js';
+						document.getElementById('fb-root').appendChild(e);
+					  }());
+					</script>	
+				</Wli>
 			</ul>
 		</article>			
 		<article id="legal" class="list indented scroll">
 			<ul>
 				<li>
-					<strong>Licencia de la aplicación web de Eligetuaventura</strong>
+					<p><strong>Licencia de la aplicación web de Eligetuaventura</strong></p>
 					<p>Esta aplicación web ha sido desarrollada con el Framework LungoJS. En cumplimiento de la Licencia de LungoJS se puede obtener todo el código usado en la aplicación web de Eligetuaventura.</p>
 					<p>Sientete libre de coger este código y modificarlo a tu gusto (respetando la licencía sobre la que esta desarrollado) y si necesitas ayuda no dudes en preguntar. También te agradecemos por adelantado cualquier tipo de sugerencia o error que detectes.</p>	<br/>	
 					<p><a class="button big articblue" href="https://github.com/gwannon/eligetuaventura">Descargar código fuente</a> </p><br/>
