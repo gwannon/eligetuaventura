@@ -42,13 +42,8 @@ $smarty->assign("URI", $_SERVER['REQUEST_URI']);
 //Conexi�n con Facebook --------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------
 $facebook = new Facebook(array(
-<<<<<<< HEAD:httpdocs/config.php.dist
 	'appId'  => 'APPID',
 	'secret' => 'SECRET',
-=======
-	'appId'  => '',
-	'secret' => '',
->>>>>>> f6a97f9ac72d42737cf5799a22fca067fe0f2863:httpdocs/config.php
 ));
 $smarty->assign("facebook", $facebook);
 $user = $facebook->getUser();
