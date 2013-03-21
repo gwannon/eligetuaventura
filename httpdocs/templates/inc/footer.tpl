@@ -48,6 +48,7 @@
 				for(var z in result.equip) {
 					equip = equip+ "<li>"+z+"</li> ";
 				}	
+				$$("#equip").empty();
 				$$("#equip").prepend(equip);				
 			};
 			Lungo.Service.json(url, data, parseResponse, "json");

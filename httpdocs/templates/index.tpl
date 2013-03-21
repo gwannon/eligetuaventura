@@ -122,7 +122,7 @@
 		{else}
 		<article id="presentation" class="active list indented scroll">
 			<ul>
-				<li>Los clásicos libros de "Elige tu propia aventura" ahora en Facebook con un toque de RPG.</li>
+				<li>Los clásicos libros de "Elige tu propia aventura" ahora en online con un toque de RPG. Logeate con Facebook para poder jugar.</li>
 			</ul>
 		</article>			
 		<article id="legal" class="list indented scroll">

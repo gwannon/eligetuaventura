@@ -54,8 +54,9 @@ if($action == "buy" && isset($_REQUEST['charid']) && $_REQUEST['charid'] > 0 && 
 
 	$charid = $_REQUEST['charid'];
 	$char_datas = getChar($charid);
-	$char_datas['equip'] = json_decode ($char_datas['equip']);
-	
+	//$char_datas['equip'] = json_decode ($char_datas['equip']);
+	//print_pre($char_datas['equip']);
+	//print_pre($items);	
 	foreach ($items as $key=>$item)
 	{
 		if (array_key_exists ($item['name'], $char_datas['equip'])) $json[] = array("id" => $item['id'], "name" => $item['name'], "gold" => $item['gold'], "bonus" => $item['bonus'], "status" => "bought");
