@@ -1,0 +1,4 @@
+Formato de las images de los pasos ---
+--------------------------------------
+
+step_[step_id].jpg
