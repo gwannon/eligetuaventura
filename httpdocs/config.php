@@ -8,10 +8,10 @@ require(dirname(__FILE__)."/libs/smarty/libs/Smarty.class.php");
 require(dirname(__FILE__)."/libs/facebook/facebook.php");
 
 //Datos generales
-$db_name = "eligetuaventura";
-$db_user = "root";
-$db_password = "pfr07pCE02";
-$db_host = "localhost";
+$db_name = "";
+$db_user = "";
+$db_password = "";
+$db_host = "";
 
 $link = mysql_connect($db_host, $db_user, $db_password);
 mysql_select_db ($db_name, $link);
@@ -39,11 +39,11 @@ $smarty->assign("Domain", $Domain);
 $smarty->assign("URI", $_SERVER['REQUEST_URI']);
 
 
-//Conexión con Facebook --------------------------------------------------------------------------
+//Conexiï¿½n con Facebook --------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------
 $facebook = new Facebook(array(
-	'appId'  => '75982369444',
-	'secret' => '21b8ccc4f7705954914bab4afc3583c4',
+	'appId'  => '',
+	'secret' => '',
 ));
 $smarty->assign("facebook", $facebook);
 $user = $facebook->getUser();
