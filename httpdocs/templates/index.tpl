@@ -122,21 +122,26 @@
 		{else}
 		<article id="presentation" class="active list indented scroll">
 			<ul>
-				<li>Hola
-				</li>
+				<li>Los clásicos libros de "Elige tu propia aventura" ahora en Facebook con un toque de RPG.</li>
 			</ul>
 		</article>			
 		<article id="legal" class="list indented scroll">
 			<ul>
 				<li>
-					<h1>Licencia de la aplicación web de Eligetuaventura</h1>
+					<strong>Licencia de la aplicación web de Eligetuaventura</strong>
 					<p>Esta aplicación web ha sido desarrollada con el Framework LungoJS. En cumplimiento de la Licencia de LungoJS se puede obtener todo el código usado en la aplicación web de Eligetuaventura.</p>
-					<p>Sientete libre de coger este código y modificarlo a tu gusto (respetando la licencía sobre la que esta desarrollado) y si necesitas ayuda no dudes en preguntar. También te agradecemos por adelantado cualquier tipo de sugerencia o error que detectes.</p>		
-					<p><a class="button big articblue" href="https://github.com/gwannon/eligetuaventura">Descargar código fuente</a> </p>
+					<p>Sientete libre de coger este código y modificarlo a tu gusto (respetando la licencía sobre la que esta desarrollado) y si necesitas ayuda no dudes en preguntar. También te agradecemos por adelantado cualquier tipo de sugerencia o error que detectes.</p>	<br/>	
+					<p><a class="button big articblue" href="https://github.com/gwannon/eligetuaventura">Descargar código fuente</a> </p><br/>
 					<p><a class="button big articblue" href="https://github.com/TapQuo/Lungo.js/blob/master/LICENSE.txt" target="_blank">LUNGOJS</a></p>
 				</li>
 			</ul>
-		</article>		
+		</article>	
+		<footer>
+			<nav>
+				<a href="#presentation" data-router="article" data-icon="home" class="active"></a>
+				<a href="#legal" data-router="article" data-icon="info"></a>
+			</nav>
+		</footer>		
 		{/if}
     </section>
 {include file="inc/footer.tpl"}
