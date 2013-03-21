@@ -1,0 +1,9 @@
+<?php
+
+//Funciones varias --------------------------------------------------------------
+//-------------------------------------------------------------------------------
+
+function t_ ($string) { echo gettext($string); }
+function print_pre ($text) { echo "<pre>"; print_r ($text); echo  "</pre>"; }
+
+?>
