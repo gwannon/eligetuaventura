@@ -8,17 +8,10 @@ require(dirname(__FILE__)."/libs/smarty/libs/Smarty.class.php");
 require(dirname(__FILE__)."/libs/facebook/facebook.php");
 
 //Datos generales
-<<<<<<< HEAD:httpdocs/config.php.dist
 $db_name = "DATABASE";
 $db_user = "USER";
 $db_password = "PASSOWRD";
 $db_host = "LOCALHOST";
-=======
-$db_name = "";
-$db_user = "";
-$db_password = "";
-$db_host = "";
->>>>>>> f6a97f9ac72d42737cf5799a22fca067fe0f2863:httpdocs/config.php
 
 $link = mysql_connect($db_host, $db_user, $db_password);
 mysql_select_db ($db_name, $link);
