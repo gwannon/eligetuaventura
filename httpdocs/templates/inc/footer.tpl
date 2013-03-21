@@ -2,6 +2,7 @@
     <script src="components/quojs/quo.js"></script>
     <script src="components/lungo/lungo.js"></script>
     <!-- Lungo - Sandbox App -->
+	{if $user}
     {literal}
 	<script>
         Lungo.init({
@@ -142,6 +143,14 @@
 		}
 		
     </script>
-	{/literal}
+	{/literal}	
+	{else}
+	<script>
+        Lungo.init({
+            name: 'eligetuaventura'
+        });	
+    </script>	
+	{/if}
+
 </body>
 </html>

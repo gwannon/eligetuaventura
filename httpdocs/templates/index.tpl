@@ -119,6 +119,24 @@
 			<ul id="items"></ul>
 			<a href="#" onclick="getChar(currentCharId);" class="button dark">Salir</a>
 		</article>
+		{else}
+		<article id="presentation" class="active list indented scroll">
+			<ul>
+				<li>Hola
+				</li>
+			</ul>
+		</article>			
+		<article id="legal" class="list indented scroll">
+			<ul>
+				<li>
+					<h1>Licencia de la aplicación web de Eligetuaventura</h1>
+					<p>Esta aplicación web ha sido desarrollada con el Framework LungoJS. En cumplimiento de la Licencia de LungoJS se puede obtener todo el código usado en la aplicación web de Eligetuaventura.</p>
+					<p>Sientete libre de coger este código y modificarlo a tu gusto (respetando la licencía sobre la que esta desarrollado) y si necesitas ayuda no dudes en preguntar. También te agradecemos por adelantado cualquier tipo de sugerencia o error que detectes.</p>		
+					<p><a class="button big articblue" href="https://github.com/gwannon/eligetuaventura">Descargar código fuente</a> </p>
+					<p><a class="button big articblue" href="https://github.com/TapQuo/Lungo.js/blob/master/LICENSE.txt" target="_blank">LUNGOJS</a></p>
+				</li>
+			</ul>
+		</article>		
 		{/if}
     </section>
 {include file="inc/footer.tpl"}
