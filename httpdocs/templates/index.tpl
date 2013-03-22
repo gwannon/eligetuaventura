@@ -14,7 +14,7 @@
 			{if $chars}
 				
 				{section name=inc loop=$chars}
-				<li><a href="#" onclick="getChar('{$chars[inc].id}');"><strong>{$chars[inc].charname}</strong><small>{$chars[inc].charclass}/{$chars[inc].charrace}</small></a></li>
+				<li class="arrow"><img src="/objects/class_{$chars[inc].charclass}.jpg"><a href="#" onclick="getChar('{$chars[inc].id}');"><strong>{$chars[inc].charname}</strong><small>{$chars[inc].charclass}/{$chars[inc].charrace}</small></a></li>
 				{/section}
 			{/if}
 			</ul>
@@ -26,7 +26,7 @@
 					<label>Nombre</label>
 					<input type="text" id="newname">
 				</fieldset>
-				<label>Clase</label>
+				<label><strong>Clase</strong></label>
                 <label class="select">
                     <select class="custom" id="newclass">
                         <option value="Picaro">Picaro</option>
@@ -36,7 +36,7 @@
 						<option value="Clerigo">Clerigo</option>
                     </select>
                 </label>
-				<label>Raza</label>
+				<label><strong>Raza</strong></label>
                 <label class="select">
                     <select class="custom" id="newrace">
                         <option value="Humano">Humano</option>
@@ -51,20 +51,16 @@
 		</article>
 		<article id="charsheet" class="list indented scroll">
 			<ul>
-				<li class="dark"><strong>Atributos</strong></li>
-				<li>
-					<ul>
-						<li id="fue">FUE</li> 
-						<li id="con">CON</li>
-						<li id="des">DES</li>	
-						<li id="int">INT</li>
-						<li id="sab">SAB</li>	
-						<li id="car">CAR</li>
-						<li id="gold">ORO</li>
-						<li id="xp">PX</li>					
-					</ul>
-				</li>
-				<li class="dark"><a href="#" onclick="openShop(currentCharId);" class="button right">Comprar</a><strong>Equipo</strong><small>Equipo especial</small></li>
+				<li class="dark"><a href="#chars-list" data-router="article" data-title="Elige tu aventura" class="button right">Cambiar personaje</a><strong>Atributos</strong><small>Atributos del personaje, oro y nivel</small></li>
+				<li><img src="/objects/atr_fue.jpg"><small>FUE</small><strong id="fue">0</strong></li> 
+				<li><img src="/objects/atr_con.jpg"><small>CON</small><strong id="con">0</strong></li>
+				<li><img src="/objects/atr_des.jpg"><small>DES</small><strong id="des">0</strong></li>	
+				<li><img src="/objects/atr_int.jpg"><small>INT</small><strong id="int">0</strong></li>
+				<li><img src="/objects/atr_sab.jpg"><small>SAB</small><strong id="sab">0</strong></li>	
+				<li><img src="/objects/atr_car.jpg"><small>CAR</small><strong id="car">0</strong></li>
+				<li><img src="/objects/atr_gold.jpg"><small>ORO</small><strong id="gold">0</strong></li>
+				<li><img src="/objects/atr_xp.jpg"><small>PX</small><strong id="xp">0</strong></li>					
+				<li class="dark"><a href="#" onclick="openShop(currentCharId);" class="button right">Comprar</a><strong>Equipo</strong><small>Equipo especial del personaje</small></li>
 				<li>
 					<ul id="equip"></ul>
 				</li>
@@ -74,12 +70,13 @@
 				<li>
 					<ul>	
 						{section name=inc loop=$adventures}
-						<li><a href="#" onclick="initAdventure({$adventures[inc].first});" data-router="article" data-title="{$adventures[inc].title}"><strong>{$adventures[inc].title}</strong><small>{$adventures[inc].text}</small></a></li>
+						<li class="arrow"><a href="#" onclick="initAdventure({$adventures[inc].first});" data-router="article" data-title="{$adventures[inc].title}"><strong>{$adventures[inc].title}</strong><small>{$adventures[inc].text}</small></a></li>
 						{/section}
 					</ul>
 				</li>	
 				{/if}
 			</ul>
+			
 		</article>
 		<article id="steps" class="{if $session.step}active {/if}list indented scroll">
 			<p id="steptext"></p>
@@ -129,18 +126,28 @@
 		<article id="legal" class="list indented scroll">
 			<ul>
 				<li>
-					<p><strong>Licencia de la aplicación web de Eligetuaventura</strong></p>
-					<p>Esta aplicación web ha sido desarrollada con el Framework LungoJS. En cumplimiento de la Licencia de LungoJS se puede obtener todo el código usado en la aplicación web de Eligetuaventura.</p>
-					<p>Sientete libre de coger este código y modificarlo a tu gusto (respetando la licencía sobre la que esta desarrollado) y si necesitas ayuda no dudes en preguntar. También te agradecemos por adelantado cualquier tipo de sugerencia o error que detectes.</p>	<br/>	
-					<p><a class="button big articblue" href="https://github.com/gwannon/eligetuaventura">Descargar código fuente</a> </p><br/>
-					<p><a class="button big articblue" href="https://github.com/TapQuo/Lungo.js/blob/master/LICENSE.txt" target="_blank">LUNGOJS</a></p>
+					<ul>
+						<li><strong>Licencia de la aplicación web de Eligetuaventura</strong></li>
+						<li>Esta aplicación web ha sido desarrollada con el Framework LungoJS. En cumplimiento de la Licencia de LungoJS se puede obtener todo el código usado en la aplicación web de Eligetuaventura.</li>
+						<li>Sientete libre de coger este código y modificarlo a tu gusto (respetando la licencía sobre la que esta desarrollado) y si necesitas ayuda no dudes en preguntar. También te agradecemos por adelantado cualquier tipo de sugerencia o error que detectes.</li>	
+						<li><a class="button big articblue" href="https://github.com/gwannon/eligetuaventura">Descargar código fuente</a></li>
+						<li><a class="button big articblue" href="https://github.com/TapQuo/Lungo.js/blob/master/LICENSE.txt" target="_blank">LUNGOJS</a></li>
+					</ul>
+				</li>
+				<li>
+					<ul>
+						<li><strong>Iconos</strong></li>
+						<li>Los iconos usados son propiedad.</li>
+						<li><a class="button big articblue" href="http://browse.deviantart.com/art/Icon-Set-C-Blue-Galewind-V-303578710">Blue-Galewind</a></li>
+						<li><a class="button big articblue" href="http://ails.deviantart.com/art/420-Pixel-Art-Icons-for-RPG-129892453">Ails</a></li>
+					</ul>
 				</li>
 			</ul>
 		</article>	
 		<footer>
 			<nav>
-				<a href="#presentation" data-router="article" data-icon="home" class="active"></a>
-				<a href="#legal" data-router="article" data-icon="info"></a>
+				<a href="#presentation" data-router="article" class="active"><img src="/objects/home.png" /></a>
+				<a href="#legal" data-router="article"><img src="/objects/info.png" /></a>
 			</nav>
 		</footer>		
 		{/if}

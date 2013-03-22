@@ -56,7 +56,7 @@ class steps
 		{
 			$html .= "<img src='".$config['url']."steps/step_".$this->id.".jpg' style='width: 100%;'><br/><br/>";
 		}	
-		$html .= "<strong>".$this->getRenderedText($session['charid'])."</strong>";
+		$html .= "<ul><li>".$this->getRenderedText($session['charid'])."</li></ul>";
 		return $html;
 	}
 	function showNexts() 
