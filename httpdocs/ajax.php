@@ -86,7 +86,19 @@ if($action == "buy" && isset($_REQUEST['charid']) && $_REQUEST['charid'] > 0 && 
 	$char_id = createChar ($charname, $charclass, $charrace, $user_profile_id, $fue, $des, $con, $int, $sab, $car);
 	$json = getChar($char_id);
 } else if ($action == "getchar") { //SACAMOS LOS DATOS DEL PERSONAJE
-	$json = getChar(intval($_REQUEST['charid']));
+	$char = getChar(intval($_REQUEST['charid']));
+	$equip = array();
+	foreach($char['equip'] as $key => $bonus) {
+		foreach($items as $item) {
+			if ($item['name'] ==  $key) {
+				$equip[] = $item;
+				break;
+			}
+		}
+		
+	}
+	$char['equip'] = $equip;
+	$json = $char;
 } else if ($action == "initadv") { //INICIAMOS LA AVENTURA
 
 	$json = array();

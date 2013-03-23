@@ -45,8 +45,8 @@
 				$$("#gold").text(result.gold);				
 				$$("#xp").text(result.xp);	
 				var equip = "";
-				for(var z in result.equip) {
-					equip = equip+ "<li>"+z+"</li> ";
+				for(var i = 0; i < result.equip.length; i++) {
+					equip = equip+ "<li><img src=\"/objects/object_"+result.equip[i].id+".jpg\"><strong>"+result.equip[i].name+"</strong><small>"+result.equip[i].bonus+"</small></li> ";
 				}	
 				$$("#equip").empty();
 				$$("#equip").prepend(equip);				

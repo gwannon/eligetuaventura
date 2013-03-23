@@ -52,12 +52,16 @@
 		<article id="charsheet" class="list indented scroll">
 			<ul>
 				<li class="dark"><a href="#chars-list" data-router="article" data-title="Elige tu aventura" class="button right">Cambiar personaje</a><strong>Atributos</strong><small>Atributos del personaje, oro y nivel</small></li>
-				<li><img src="/objects/atr_fue.jpg"><small>FUE</small><strong id="fue">0</strong></li> 
-				<li><img src="/objects/atr_con.jpg"><small>CON</small><strong id="con">0</strong></li>
-				<li><img src="/objects/atr_des.jpg"><small>DES</small><strong id="des">0</strong></li>	
-				<li><img src="/objects/atr_int.jpg"><small>INT</small><strong id="int">0</strong></li>
-				<li><img src="/objects/atr_sab.jpg"><small>SAB</small><strong id="sab">0</strong></li>	
-				<li><img src="/objects/atr_car.jpg"><small>CAR</small><strong id="car">0</strong></li>
+				<li>
+					<ul>
+						<li><img src="/objects/atr_fue.jpg"><small>FUE</small><strong id="fue">0</strong></li> 
+						<li><img src="/objects/atr_des.jpg"><small>DES</small><strong id="des">0</strong></li>	
+						<li><img src="/objects/atr_con.jpg"><small>CON</small><strong id="con">0</strong></li>
+						<li><img src="/objects/atr_int.jpg"><small>INT</small><strong id="int">0</strong></li>
+						<li><img src="/objects/atr_sab.jpg"><small>SAB</small><strong id="sab">0</strong></li>	
+						<li><img src="/objects/atr_car.jpg"><small>CAR</small><strong id="car">0</strong></li>
+					</ul>
+				</li>
 				<li><img src="/objects/atr_gold.jpg"><small>ORO</small><strong id="gold">0</strong></li>
 				<li><img src="/objects/atr_xp.jpg"><small>PX</small><strong id="xp">0</strong></li>					
 				<li class="dark"><a href="#" onclick="openShop(currentCharId);" class="button right">Comprar</a><strong>Equipo</strong><small>Equipo especial del personaje</small></li>
@@ -88,8 +92,11 @@
 			</ul>
 		</article>
 		<article id="shop" class="list indented scroll">
-			<ul id="items"></ul>
-			<a href="#" onclick="getChar(currentCharId);" class="button dark">Salir</a>
+			<ul>
+				<li class="dark"><a href="#" onclick="getChar(currentCharId);" class="button right">Salir</a><strong>Comprar</strong><small>Compra objetos mágicos te te ayuden</small></li>
+
+			</ul><ul id="items"></ul>
+			
 		</article>
 		{else}
 		<article id="presentation" class="active list indented scroll">
@@ -123,6 +130,14 @@
 				</Wli>
 			</ul>
 		</article>			
+		<article id="ranking" class="list indented scroll">
+			<ul>
+				{section name=inc loop=$chars}
+				<li><img src="/objects/class_{$chars[inc].charclass}.jpg"><strong>{$chars[inc].xp} {$chars[inc].charname}</strong> <small>{$chars[inc].charclass}/{$chars[inc].charrace}</small></li>
+				{/section}
+			</ul>
+			<br/><br/><br/><br/>
+		</article>
 		<article id="legal" class="list indented scroll">
 			<ul>
 				<li>
@@ -143,10 +158,12 @@
 					</ul>
 				</li>
 			</ul>
+			<br/><br/><br/><br/>			
 		</article>	
 		<footer>
 			<nav>
 				<a href="#presentation" data-router="article" class="active"><img src="/objects/home.png" /></a>
+				<a href="#ranking" data-router="article"><img src="/objects/ranking.png" /></a>
 				<a href="#legal" data-router="article"><img src="/objects/info.png" /></a>
 			</nav>
 		</footer>		

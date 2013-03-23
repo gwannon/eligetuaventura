@@ -68,6 +68,13 @@ class steps
 		{
 			
 			$char = getChar($session['charid']);
+			
+			if ($char['charclass'] == 'Picaro') $charattack = "golpea con su espada corta";
+			else if ($char['charclass'] == 'Barbaro') $charattack = "golpea con su espada a dos manos";
+			else if ($char['charclass'] == 'Guerrero') $charattack = "golpea con su espada";
+			else if ($char['charclass'] == 'Mago') $charattack = "lanza un proyectil mágico";			
+			else if ($char['charclass'] == 'Clerigo') $charattack = "golpea con su maza";	
+			
 			foreach ($nexts as $next)
 			{
 				if ($next['fail'] == "")
@@ -75,6 +82,7 @@ class steps
 
 					$next['text'] = eregi_replace ("\[charname\]", $char['charname'], $next['text']);
 					$next['text'] = eregi_replace ("\[charrace\]", $char['charrace'], $next['text']);
+					$next['text'] = eregi_replace ("\[charattack\]", $charattack, $next['text']);					
 					$nextsteps[] = array("id" => $next['to_id'], "text" => $next['text']);
 				}
 				else
@@ -88,6 +96,7 @@ class steps
 						{
 							$next['text'] = eregi_replace ("\[charname\]", $char['charname'], $next['text']);
 							$next['text'] = eregi_replace ("\[charrace\]", $char['charrace'], $next['text']);
+							$next['text'] = eregi_replace ("\[charattack\]", $charattack, $next['text']);							
 							$nextsteps[] = array("id" => $next['to_id'], "text" => $next['text']);			
 						}
 					}
@@ -101,6 +110,7 @@ class steps
 							{
 								$next['text'] = eregi_replace ("\[charname\]", $char['charname'], $next['text']);
 								$next['text'] = eregi_replace ("\[charrace\]", $char['charrace'], $next['text']);
+								$next['text'] = eregi_replace ("\[charattack\]", $charattack, $next['text']);								
 								$nextsteps[] = array("id" => $next['to_id'], "text" => $next['text']);
 							}		
 						}
@@ -126,6 +136,16 @@ function checkFail($checkfail, $session)
 	$temp_chance = split(",", $temp_fail[0]);
 	$chance = (isset($temp_chance[0])) ? $temp_chance[0] : "";
 	$hab = (isset($temp_chance[1])) ? $temp_chance[1] : "";
+	
+	$char = getChar($session['charid']);
+	
+	if ($char['charclass'] == 'Picaro' && $hab == 'ata') $hab = "des";
+	else if ($char['charclass'] == 'Barbaro' && $hab == 'ata') $hab = "fue";
+	else if ($char['charclass'] == 'Guerrero' && $hab == 'ata') $hab = "fue";
+	else if ($char['charclass'] == 'Mago' && $hab == 'ata') $hab = "int";		
+	else if ($char['charclass'] == 'Clerigo' && $hab == 'ata') $hab = "sab";
+	
+	
 	$redirect = (isset($temp_fail[1])) ? $temp_fail[1] : "";
 	$label = (isset($temp_fail[2])) ? $temp_fail[2] : "";
 	$value = (isset($temp_fail[3])) ? $temp_fail[3] : "";
