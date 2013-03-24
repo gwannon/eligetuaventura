@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Elige tu aventura</title>
+    <title>{$Name}</title>
     <meta name="description" content="">
     <meta name="author" content="Jorge Monclús (@gwannon)">
     <meta name="HandheldFriendly" content="True">

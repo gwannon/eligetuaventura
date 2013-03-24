@@ -69,11 +69,11 @@ class steps
 			
 			$char = getChar($session['charid']);
 			
-			if ($char['charclass'] == 'Picaro') $charattack = "golpea con su espada corta";
-			else if ($char['charclass'] == 'Barbaro') $charattack = "golpea con su espada a dos manos";
+			if ($char['charclass'] == 'P&iacute;caro') $charattack = "golpea con su espada corta";
+			else if ($char['charclass'] == 'B&aacute;rbaro') $charattack = "golpea con su espada a dos manos";
 			else if ($char['charclass'] == 'Guerrero') $charattack = "golpea con su espada";
 			else if ($char['charclass'] == 'Mago') $charattack = "lanza un proyectil mágico";			
-			else if ($char['charclass'] == 'Clerigo') $charattack = "golpea con su maza";	
+			else if ($char['charclass'] == 'Cl&eacute;rigo') $charattack = "golpea con su maza";	
 			
 			foreach ($nexts as $next)
 			{
@@ -139,11 +139,11 @@ function checkFail($checkfail, $session)
 	
 	$char = getChar($session['charid']);
 	
-	if ($char['charclass'] == 'Picaro' && $hab == 'ata') $hab = "des";
-	else if ($char['charclass'] == 'Barbaro' && $hab == 'ata') $hab = "fue";
+	if ($char['charclass'] == 'P&iacute;caro' && $hab == 'ata') $hab = "des";
+	else if ($char['charclass'] == 'B&aacute;rbaro' && $hab == 'ata') $hab = "fue";
 	else if ($char['charclass'] == 'Guerrero' && $hab == 'ata') $hab = "fue";
 	else if ($char['charclass'] == 'Mago' && $hab == 'ata') $hab = "int";		
-	else if ($char['charclass'] == 'Clerigo' && $hab == 'ata') $hab = "sab";
+	else if ($char['charclass'] == 'Cl&eacute;rigo' && $hab == 'ata') $hab = "sab";
 	
 	
 	$redirect = (isset($temp_fail[1])) ? $temp_fail[1] : "";
@@ -294,9 +294,9 @@ function getChar($charid)
 	}
 }
 
-function createChar ($charname, $charclass, $charrace, $profile_id, $fue, $des, $con, $int, $sab, $car)
+function createChar ($charname, $charclass, $charrace, $profile_id, $fue, $des, $con, $int, $sab, $car, $gold = 0)
 {
-	$sql = "INSERT INTO `AVE_chars` (`id`,`charname`,`charclass`,`charrace`,`profile_id`,`fue`,`des`,`con`,`int`,`sab`,`car`) VALUES ('', '".$charname."', '".$charclass."',  '".$charrace."','".$profile_id."', '".$fue."', '".$des."', '".$con."', '".$int."', '".$sab."', '".$car."')";
+	$sql = "INSERT INTO `AVE_chars` (`id`,`charname`,`charclass`,`charrace`,`profile_id`,`fue`,`des`,`con`,`int`,`sab`,`car`,`gold`) VALUES ('', '".$charname."', '".$charclass."',  '".$charrace."','".$profile_id."', '".$fue."', '".$des."', '".$con."', '".$int."', '".$sab."', '".$car."', '".$gold."')";
 	//echo $sql;
 	$res = mysql_query($sql);
 	return mysql_insert_id();

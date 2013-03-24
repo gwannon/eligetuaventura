@@ -1,6 +1,6 @@
 {include file="inc/header.tpl"}
     <section id="index">
-        <header data-title="Elige tu aventura">
+        <header data-title="{$Name}">
 			<nav class="right">
 			{if $user}
 				<a href="{$logout_url}" data-icon="close" class="button"></a>
@@ -29,11 +29,9 @@
 				<label><strong>Clase</strong></label>
                 <label class="select">
                     <select class="custom" id="newclass">
-                        <option value="Picaro">Picaro</option>
-                        <option value="Guerrero">Guerrero</option>
-                        <option value="Barbaro">Barbaro</option>
-						<option value="Mago">Mago</option>
-						<option value="Clerigo">Clerigo</option>
+                        {foreach from=$player_classes key=k item=v}
+						<option value="{$k}">{$k}</option>
+						{/foreach}
                     </select>
                 </label>
 				<label><strong>Raza</strong></label>
@@ -51,7 +49,7 @@
 		</article>
 		<article id="charsheet" class="list indented scroll">
 			<ul>
-				<li class="dark"><a href="#chars-list" data-router="article" data-title="Elige tu aventura" class="button right">Cambiar personaje</a><strong>Atributos</strong><small>Atributos del personaje, oro y nivel</small></li>
+				<li class="dark"><a href="#chars-list" data-router="article" data-title="{$Name}" class="button right">Cambiar personaje</a><strong>Atributos</strong><small>Atributos del personaje, oro y nivel</small></li>
 				<li>
 					<ul>
 						<li><img src="/objects/atr_fue.jpg"><small>FUE</small><strong id="fue">0</strong></li> 
@@ -86,7 +84,7 @@
 			<p id="steptext"></p>
 			<ul id="next"></ul>
 			<ul>
-				<li id="endbutton"><a href="#chars-list" data-router="article" data-title="Elige tu aventura" class="button dark">Terminar</a></li>
+				<li id="endbutton"><a href="#chars-list" data-router="article" data-title="{$Name}" class="button dark">Terminar</a></li>
 				<li id="message"></li>
 				<li id="status"></li>				
 			</ul>
@@ -101,7 +99,7 @@
 		{else}
 		<article id="presentation" class="active list indented scroll">
 			<ul>
-				<li>Los clásicos libros de "Elige tu propia aventura" ahora en online con un toque de RPG.</li>
+				<li>Crea tu heroe y adentrate en el mundo de espada y magia de Nomariarka.</li>
 				<li class="center">
 					<small>Logeate con Facebook para poder jugar.</small><br/> <fb:login-button></fb:login-button>
 					<div id="fb-root"></div>

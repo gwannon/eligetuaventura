@@ -6,6 +6,7 @@ ini_set('display_errors', 0);
 require(dirname(__FILE__)."/libs/class.adventure.php");
 require(dirname(__FILE__)."/libs/smarty/libs/Smarty.class.php");
 require(dirname(__FILE__)."/libs/facebook/facebook.php");
+require(dirname(__FILE__)."/datas.php");
 
 //Datos generales
 $db_name = "DATABASE";
