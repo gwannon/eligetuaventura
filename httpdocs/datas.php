@@ -14,6 +14,7 @@ $items[6] = array ("id" => 6, "name" => "Anillo &Eacute;lfico", "bonus" => "+2|i
 $items[7] = array ("id" => 7, "name" => "Faja de Superfuerza", "bonus" => "+4|fue", "gold" => 600);
 $items[8] = array ("id" => 8, "name" => "Guantes de Ladr&oacute;n", "bonus" => "+4|des", "gold" => 600);	
 
+//Clases -------------------------------------------------------------------------
 $player_classes = array();
 $player_classes['B&aacute;rbaro'] = array(
 	"fue" => 20, "des" => 16, "con" => 20, "int" => 14, "sab" => 16, "car" => 14, 
@@ -36,6 +37,8 @@ $player_classes['Caballero'] = array(
 $player_classes['Bardo'] = array(
 	"fue" => 14, "des" => 20, "con" => 14, "int" => 16, "sab" => 16, "car" => 20, 
 	"ata" => "car", "charattack" => "golpea con su espada corta");
+
+//Razas -------------------------------------------------------------------------
 $player_races = array();
 $player_races['Humano'] = array("fue" => 0, "des" => 0, "con" => 0, "int" => 0, "sab" => 0, "car" => 0);
 $player_races['Enano'] = array("fue" => 0, "des" => 0, "con" => 2, "int" => 0, "sab" => 0, "car" => -2);
