@@ -45,7 +45,7 @@ $player_races['Enano'] = array("fue" => 0, "des" => 0, "con" => 2, "int" => 0, "
 $player_races['Elfo'] = array("fue" => 0, "des" => 2, "con" => -2, "int" => 0, "sab" => 0, "car" => 0);
 $player_races['Gnomo'] = array("fue" => -2, "des" => 0, "con" => 0, "int" => 0, "sab" => 0, "car" => 2);
 $player_races['Halfling'] = array("fue" => -2, "des" => 2, "con" => 0, "int" => 0, "sab" => 0, "car" => 0);
-$player_races['Semiorco'] = array("fue" => 2, "des" => 2, "con" => 0, "int" => 0, "sab" => 0, "car" => -2);
+$player_races['Semiorco'] = array("fue" => 2, "des" => 2, "con" => 0, "int" => -2, "sab" => 0, "car" => -2);
 $player_races['Semielfo'] = array("fue" => 0, "des" => 2, "con" => 0, "int" => 0, "sab" => 0, "car" => -2);
 
 ?>
