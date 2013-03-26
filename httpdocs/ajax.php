@@ -61,17 +61,12 @@ if($action == "buy" && isset($_REQUEST['charid']) && $_REQUEST['charid'] > 0 && 
 	$charrace = $_REQUEST['charrace'];
 	$user_profile_id = $_REQUEST ['userid'];
 	
-	if ($charclass == "P&iacute;caro") { $fue = 16; $des = 20; $con = 16; $int = 14; $sab = 14; $car = 20; }
-	else if ($charclass == "Guerrero") { $fue = 20; $des = 20; $con = 16; $int = 14; $sab = 16; $car = 14; }
-	else if ($charclass == "B&aacute;rbaro") { $fue = 20; $des = 16; $con = 20; $int = 14; $sab = 16; $car = 14; }
-	else if ($charclass == "Mago") { $fue = 14; $des = 16; $con = 14; $int = 20; $sab = 20; $car = 16; }
-	else if ($charclass == "Cl&eacute;rigo") { $fue = 14; $des = 14; $con = 16; $int = 20; $sab = 20; $car = 16; }
-
-	if ($charrace == "Humano") {  }
-	else if ($charrace == "Enano") { $con = $con + 2; $car = $car - 2;  }
-	else if ($charrace == "Elfo") { $des = $des +2; $con = $con - 2; }
-	else if ($charrace == "Gnomo") { $car = $car + 2; $fue = $fue - 2; }
-	else if ($charrace == "Halfling") { $des = $des +2; $fue = $fue - 2; }
+	$fue = $player_classes[$charclass]['fue'] + $player_races[$charrace]['fue']; 
+	$des = $player_classes[$charclass]['des'] + $player_races[$charrace]['des']; 
+	$con = $player_classes[$charclass]['con'] + $player_races[$charrace]['con'];  
+	$int = $player_classes[$charclass]['int'] + $player_races[$charrace]['int'];  
+	$sab = $player_classes[$charclass]['sab'] + $player_races[$charrace]['sab'];  
+	$car = $player_classes[$charclass]['car'] + $player_races[$charrace]['car']; 
 
 	$char_id = createChar ($charname, $charclass, $charrace, $user_profile_id, $fue, $des, $con, $int, $sab, $car, $initial_gold);
 	$json = getChar($char_id);

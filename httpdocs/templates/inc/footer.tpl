@@ -19,7 +19,7 @@
 		{literal}
 		
 		function createChar() {
-			var url = "http://eligetuaventura.gwannon.com/ajax.php";
+			var url = "/ajax.php";
 			var data = {action: 'createchar', userid: currentUserId, charname: $$("#newname").val(), charclass: $$("#newclass").val(), charrace: $$("#newrace").val()};
 			var parseResponse = function(result){
 				console.log(result);
@@ -30,12 +30,14 @@
 		
 		function getChar(charid) {
 			Lungo.Router.article("index", "charsheet");
-			var url = "http://eligetuaventura.gwannon.com/ajax.php";
+			var url = "/ajax.php";
 			var data = {action: 'getchar', charid: charid};
 			var parseResponse = function(result){
 				console.log(result);
-				Lungo.View.Article.title(result.charname+" ("+result.charclass+"/"+result.charrace+")");	
+				Lungo.View.Article.title(result.charname);	
 				currentCharId = result.id;
+				$$("#charinfo").empty();
+				$$("#charinfo").append("<img src=\"/objects/class_"+result.charclass+".jpg\"><strong>"+result.charclass+"/"+result.charrace+"</strong><small>XP: "+result.xp+"</small>");
 				$$("#fue").text(result.fue);				
 				$$("#des").text(result.des);				
 				$$("#con").text(result.con);				
@@ -43,7 +45,7 @@
 				$$("#sab").text(result.sab);				
 				$$("#car").text(result.car);	
 				$$("#gold").text(result.gold);				
-				$$("#xp").text(result.xp);	
+				/*$$("#xp").text(result.xp);*/	
 				var equip = "";
 				for(var i = 0; i < result.equip.length; i++) {
 					equip = equip+ "<li><img src=\"/objects/object_"+result.equip[i].id+".jpg\"><strong>"+result.equip[i].name+"</strong><small>"+result.equip[i].bonus+"</small></li> ";
@@ -56,7 +58,7 @@
 		
 		function initAdventure(stepId) {
 			Lungo.Router.article("index", "steps");
-			var url = "http://eligetuaventura.gwannon.com/ajax.php";
+			var url = "/ajax.php";
 			var data = {action: 'initadv', stepid: stepId, charid: currentCharId, userid: currentUserId};
 			var parseResponse = function(result){
 				//console.log(result);
@@ -116,7 +118,7 @@
 		
 		function openShop(charid) {
 			Lungo.Router.article("index", "shop");
-			var url = "http://eligetuaventura.gwannon.com/ajax.php";
+			var url = "/ajax.php";
 			var data = {action: 'shop', charid: charid};
 			var parseResponse = function(result){
 				console.log(result);
@@ -134,7 +136,7 @@
 		}	
 			
 		function buyItem (charid, itemid) {
-			var url = "http://eligetuaventura.gwannon.com/ajax.php";
+			var url = "/ajax.php";
 			var data = {action: 'buy', charid: charid, item: itemid};
 			var parseResponse = function(result){
 				console.log(result);

@@ -10,7 +10,7 @@
 		{if $user}		
 		<article id="chars-list" class="{if !$session.step}active {/if}list indented scroll">
 			<ul id="chars-li">
-				<li class="dark"><strong>Personajes</strong></li>
+				<li class="dark"><strong>Héroes</strong></li>
 			{if $chars}
 				
 				{section name=inc loop=$chars}
@@ -19,7 +19,7 @@
 			{/if}
 			</ul>
 			<ul>
-				<li class="dark"><strong>Crear personaje</strong></li>
+				<li class="dark"><strong>Crear héroe</strong></li>
 			</ul>
 			<div class="form">
 				<fieldset data-icon="plus">
@@ -30,18 +30,16 @@
                 <label class="select">
                     <select class="custom" id="newclass">
                         {foreach from=$player_classes key=k item=v}
-						<option value="{$k}">{$k}</option>
-						{/foreach}
+			<option value="{$k}">{$k}</option>
+			{/foreach}
                     </select>
                 </label>
 				<label><strong>Raza</strong></label>
                 <label class="select">
                     <select class="custom" id="newrace">
-                        <option value="Humano">Humano</option>
-                        <option value="Enano">Enano</option>
-                        <option value="Elfo">Elfo</option>
-						<option value="Gnomo">Gnomo</option>
-						<option value="Halfling">Halfling</option>
+                        {foreach from=$player_races key=k item=v}
+			<option value="{$k}">{$k}</option>
+			{/foreach}
                     </select>
                 </label>
 				<a href="#" onclick="createChar();" class="button dark">Crear</a>
@@ -52,6 +50,7 @@
 				<li class="dark"><a href="#chars-list" data-router="article" data-title="{$Name}" class="button right">Cambiar personaje</a><strong>Atributos</strong><small>Atributos del personaje, oro y nivel</small></li>
 				<li>
 					<ul>
+						<li id="charinfo"></li>
 						<li><img src="/objects/atr_fue.jpg"><small>FUE</small><strong id="fue">0</strong></li> 
 						<li><img src="/objects/atr_des.jpg"><small>DES</small><strong id="des">0</strong></li>	
 						<li><img src="/objects/atr_con.jpg"><small>CON</small><strong id="con">0</strong></li>
@@ -61,7 +60,7 @@
 					</ul>
 				</li>
 				<li><img src="/objects/atr_gold.jpg"><small>ORO</small><strong id="gold">0</strong></li>
-				<li><img src="/objects/atr_xp.jpg"><small>PX</small><strong id="xp">0</strong></li>					
+				<!-- <li><img src="/objects/atr_xp.jpg"><small>PX</small><strong id="xp">0</strong></li> -->					
 				<li class="dark"><a href="#" onclick="openShop(currentCharId);" class="button right">Comprar</a><strong>Equipo</strong><small>Equipo especial del personaje</small></li>
 				<li>
 					<ul id="equip"></ul>
@@ -150,9 +149,20 @@
 				<li>
 					<ul>
 						<li><strong>Iconos</strong></li>
-						<li>Los iconos usados son propiedad.</li>
+						<li>Los iconos usados son propiedad de.</li>
 						<li><a class="button big articblue" href="http://browse.deviantart.com/art/Icon-Set-C-Blue-Galewind-V-303578710">Blue-Galewind</a></li>
 						<li><a class="button big articblue" href="http://ails.deviantart.com/art/420-Pixel-Art-Icons-for-RPG-129892453">Ails</a></li>
+					</ul>
+				</li>
+			</ul>
+			<br/><br/><br/><br/>			
+		</article>
+		<article id="info" class="list indented scroll">
+			<ul>
+				<li>
+					<ul>
+						<li><strong>Ayuda del juego</strong></li>
+						<li>Heroes de Nomariarka es un juego de tipo 'Elige tu propia aventura' con toques de RPG ambientado en el mundo mediaval fantástico de Nomariarka.</li>
 					</ul>
 				</li>
 			</ul>
@@ -162,7 +172,8 @@
 			<nav>
 				<a href="#presentation" data-router="article" class="active"><img src="/objects/home.png" /></a>
 				<a href="#ranking" data-router="article"><img src="/objects/ranking.png" /></a>
-				<a href="#legal" data-router="article"><img src="/objects/info.png" /></a>
+				<a href="#info" data-router="article"><img src="/objects/info.png" /></a>
+				<a href="#legal" data-router="article"><img src="/objects/legal.png" /></a>
 			</nav>
 		</footer>		
 		{/if}

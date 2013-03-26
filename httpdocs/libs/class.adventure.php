@@ -61,19 +61,15 @@ class steps
 	}
 	function showNexts() 
 	{
-		global $session, $config;
+		global $session, $config, $player_classes;
 		$nexts = $this->getNexts();
 		$nextsteps = array();
 		if (count($nexts) > 0)
 		{
 			
 			$char = getChar($session['charid']);
-			
-			if ($char['charclass'] == 'P&iacute;caro') $charattack = "golpea con su espada corta";
-			else if ($char['charclass'] == 'B&aacute;rbaro') $charattack = "golpea con su espada a dos manos";
-			else if ($char['charclass'] == 'Guerrero') $charattack = "golpea con su espada";
-			else if ($char['charclass'] == 'Mago') $charattack = "lanza un proyectil mágico";			
-			else if ($char['charclass'] == 'Cl&eacute;rigo') $charattack = "golpea con su maza";	
+			$temp_label = $char['charclass'];
+			$charattack = $player_classes[$temp_label]['charattack'];
 			
 			foreach ($nexts as $next)
 			{
@@ -128,8 +124,8 @@ class steps
 	}
 } # class steps
 
-function checkFail($checkfail, $session)
-{
+function checkFail($checkfail, $session) {
+	global $player_classes;
 	//echo "<li>$checkfail";
 	$temp_fail = split ("\|", $checkfail);
 	//print_r ($temp_fail);
@@ -139,12 +135,18 @@ function checkFail($checkfail, $session)
 	
 	$char = getChar($session['charid']);
 	
-	if ($char['charclass'] == 'P&iacute;caro' && $hab == 'ata') $hab = "des";
+	/*if ($char['charclass'] == 'P&iacute;caro' && $hab == 'ata') $hab = "des";
 	else if ($char['charclass'] == 'B&aacute;rbaro' && $hab == 'ata') $hab = "fue";
 	else if ($char['charclass'] == 'Guerrero' && $hab == 'ata') $hab = "fue";
 	else if ($char['charclass'] == 'Mago' && $hab == 'ata') $hab = "int";		
-	else if ($char['charclass'] == 'Cl&eacute;rigo' && $hab == 'ata') $hab = "sab";
-	
+	else if ($char['charclass'] == 'Cl&eacute;rigo' && $hab == 'ata') $hab = "sab";*/
+	if ($hab == 'ata') {
+		$temp_label = $char['charclass'];
+		$hab = $player_classes[$temp_label]['ata'];
+		//echo "<li>".$temp_label;
+		//echo "<li>".$hab;
+		//die;
+	}
 	
 	$redirect = (isset($temp_fail[1])) ? $temp_fail[1] : "";
 	$label = (isset($temp_fail[2])) ? $temp_fail[2] : "";
