@@ -8,7 +8,30 @@ $json = array();
 
 $action = $_REQUEST['action'];
 
-if($action == "buy" && isset($_REQUEST['charid']) && $_REQUEST['charid'] > 0 && isset($_REQUEST['item']) && $_REQUEST['item'] > 0) {
+if($action == "sell" && isset($_REQUEST['charid']) && $_REQUEST['charid'] > 0 && isset($_REQUEST['item']) && $_REQUEST['item'] > 0) {
+	$charid = $_REQUEST['charid'];
+	$char_datas = getChar($charid);
+	$json = $_REQUEST;
+	
+	$item_id = $_REQUEST['item'];
+	if (array_key_exists ($items[$item_id]['name'], $char_datas['equip'])) { //Comprabamos que no lo haya comprado antes
+		//metemos a pasta al Jugador
+		$sql = " UPDATE `AVE_chars` SET gold = gold + ".($items[$item_id]['gold']/2)." WHERE id = $charid";
+		$res = mysql_query ($sql);
+		
+		//Actualziamos su equipo
+		$current_equip = array();
+		foreach ($char_datas['equip'] as $name=>$bonus) {
+			if($items[$item_id]['name'] != $name) $current_equip[$name] = $bonus;
+		}
+		$json =json_encode ($current_equip);
+		$sql = " UPDATE `AVE_chars` SET equip = '".$json."' WHERE id = $charid";
+		$res = mysql_query ($sql);
+		$char_datas = getChar($charid);
+		$char_datas['equip'] = json_decode ($char_datas['equip']);
+	}
+
+} else if($action == "buy" && isset($_REQUEST['charid']) && $_REQUEST['charid'] > 0 && isset($_REQUEST['item']) && $_REQUEST['item'] > 0) {
 	$charid = $_REQUEST['charid'];
 	$char_datas = getChar($charid);
 	$json = $_REQUEST;
@@ -47,11 +70,23 @@ if($action == "buy" && isset($_REQUEST['charid']) && $_REQUEST['charid'] > 0 && 
 	//$char_datas['equip'] = json_decode ($char_datas['equip']);
 	//print_pre($char_datas['equip']);
 	//print_pre($items);	
-	foreach ($items as $key=>$item)
-	{
-		if (array_key_exists ($item['name'], $char_datas['equip'])) $json[] = array("id" => $item['id'], "name" => $item['name'], "gold" => $item['gold'], "bonus" => $item['bonus'], "status" => "bought");
-		else if ($item['gold'] <= $char_datas['gold'])  $json[] = array("id" => $item['id'], "name" => $item['name'], "gold" => $item['gold'], "bonus" => $item['bonus'], "status" => "buy", "key" => $key);
-		else $json[] = array("id" => $item['id'], "name" => $item['name'], "gold" => $item['gold'], "bonus" => $item['bonus'], "status" => "nogold");
+	$slots = array();
+	foreach ($items as $key=>$item) {
+		if(array_key_exists ($item['name'], $char_datas['equip']) && !in_array($item['slot'], $slots)) $slots[] = $item['slot'];
+	}
+	//print_pre ($slots);
+	foreach ($items as $key=>$item) {
+		if(in_array($item['slot'], $slots) && !array_key_exists ($item['name'], $char_datas['equip'])) { 
+			$json[] = array("id" => $item['id'], "name" => $item['name'], "gold" => $item['gold'], "bonus" => $item['bonus'], "status" => "noslot", "slot" => $item['slot']);
+		
+		} else if (array_key_exists ($item['name'], $char_datas['equip'])) {
+			 $json[] = array("id" => $item['id'], "name" => $item['name'], "gold" => ($item['gold']/2), "bonus" => $item['bonus'], "status" => "bought", "slot" => $item['slot']); } else if ($item['gold'] <= $char_datas['gold']) {
+			 $json[] = array("id" => $item['id'], "name" => $item['name'], "gold" => $item['gold'], "bonus" => $item['bonus'], "status" => "buy", "slot" => $item['slot'], "key" => $key);
+		
+
+		} else { 
+			$json[] = array("id" => $item['id'], "name" => $item['name'], "gold" => $item['gold'], "bonus" => $item['bonus'], "status" => "nogold", "slot" => $item['slot']);
+		}
 	}	
 
 } else if ($action == "createchar" && isset($_REQUEST['charname']) && $_REQUEST['charname'] != '') { // Crear peronajes

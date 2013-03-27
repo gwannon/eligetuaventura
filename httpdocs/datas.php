@@ -5,14 +5,27 @@ $initial_gold = 200;
 
 //Objetos -------------------------------------------------------------------------
 $items = array ();
-$items[1] = array ("id" => 1, "name" => "Guanteletes de Fuerza", "bonus" => "+2|fue", "gold" => 200);
-$items[2] = array ("id" => 2, "name" => "Sandalias de Ladr&oacute;n", "bonus" => "+2|des", "gold" => 250);
-$items[3] = array ("id" => 3, "name" => "Capa de Esplendor", "bonus" => "+2|car", "gold" => 250);
-$items[4] = array ("id" => 4, "name" => "Gorro del Saber", "bonus" => "+2|sab", "gold" => 250);
-$items[5] = array ("id" => 5, "name" => "Cintur&oacute;n de Resistencia", "bonus" => "+2|con", "gold" => 250);
-$items[6] = array ("id" => 6, "name" => "Anillo &Eacute;lfico", "bonus" => "+2|int", "gold" => 250);
-$items[7] = array ("id" => 7, "name" => "Faja de Superfuerza", "bonus" => "+4|fue", "gold" => 600);
-$items[8] = array ("id" => 8, "name" => "Guantes de Ladr&oacute;n", "bonus" => "+4|des", "gold" => 600);	
+//CABEZA
+$items[4] = array ("id" => 4, "name" => "Gorro del Saber", "bonus" => "+2|sab", "gold" => 250, "slot" => "Cabeza");
+$items[10] = array ("id" => 10, "name" => "Yelmo de protecci&oacute;n", "bonus" => "+2|con", "gold" => 250, "slot" => "Cabeza");
+//CUELLO
+$items[11] = array ("id" => 11, "name" => "Talism&aacute;n de protecci&oacute;n", "bonus" => "+2|con", "gold" => 250, "slot" => "Cuello");
+$items[12] = array ("id" => 12, "name" => "Colgante Sagrado", "bonus" => "+2|sab", "gold" => 250, "slot" => "Cuello");
+//ESPALDA
+$items[3] = array ("id" => 3, "name" => "Capa de Esplendor", "bonus" => "+2|car", "gold" => 250, "slot" => "Espalda");
+$items[15] = array ("id" => 15, "name" => "Capa &Eacute;lfica", "bonus" => "+2|des", "gold" => 250, "slot" => "Espalda");
+$items[13] = array ("id" => 13, "name" => "Capa de protecci&oacute;n", "bonus" => "+4|con", "gold" => 600, "slot" => "Espalda");
+//MANOS
+$items[1] = array ("id" => 1, "name" => "Guanteletes de Fuerza", "bonus" => "+2|fue", "gold" => 250, "slot" => "Manos");
+$items[6] = array ("id" => 6, "name" => "Anillo &Eacute;lfico", "bonus" => "+2|int", "gold" => 250, "slot" => "Manos");
+$items[8] = array ("id" => 8, "name" => "Guantes de Ladr&oacute;n", "bonus" => "+4|des", "gold" => 600, "slot" => "Manos");	
+$items[14] = array ("id" => 14, "name" => "Anillo de protecci&oacute;n", "bonus" => "+4|con", "gold" => 600, "slot" => "Manos");
+//CINTURA
+$items[5] = array ("id" => 5, "name" => "Cintur&oacute;n de Resistencia", "bonus" => "+2|con", "gold" => 250, "slot" => "Cintura");
+$items[7] = array ("id" => 7, "name" => "Faja de Superfuerza", "bonus" => "+4|fue", "gold" => 600, "slot" => "Cintura");
+//PIERNAS
+$items[2] = array ("id" => 2, "name" => "Sandalias de Ladr&oacute;n", "bonus" => "+2|des", "gold" => 250, "slot" => "Piernas");
+$items[9] = array ("id" => 9, "name" => "Botas de Enano", "bonus" => "+2|fue", "gold" => 250, "slot" => "Piernas");
 
 //Clases -------------------------------------------------------------------------
 $player_classes = array();

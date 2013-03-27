@@ -79,7 +79,7 @@ class steps
 					$next['text'] = eregi_replace ("\[charname\]", $char['charname'], $next['text']);
 					$next['text'] = eregi_replace ("\[charrace\]", $char['charrace'], $next['text']);
 					$next['text'] = eregi_replace ("\[charattack\]", $charattack, $next['text']);					
-					$nextsteps[] = array("id" => $next['to_id'], "text" => $next['text']);
+					$nextsteps[] = array("id" => $next['to_id'], "text" => $next['text'], "type" =>  $next['type']);
 				}
 				else
 				{
@@ -93,7 +93,7 @@ class steps
 							$next['text'] = eregi_replace ("\[charname\]", $char['charname'], $next['text']);
 							$next['text'] = eregi_replace ("\[charrace\]", $char['charrace'], $next['text']);
 							$next['text'] = eregi_replace ("\[charattack\]", $charattack, $next['text']);							
-							$nextsteps[] = array("id" => $next['to_id'], "text" => $next['text']);			
+							$nextsteps[] = array("id" => $next['to_id'], "text" => $next['text'], "type" =>  $next['type']);			
 						}
 					}
 					else if (count ($temp_fail)  == 2)
@@ -107,7 +107,7 @@ class steps
 								$next['text'] = eregi_replace ("\[charname\]", $char['charname'], $next['text']);
 								$next['text'] = eregi_replace ("\[charrace\]", $char['charrace'], $next['text']);
 								$next['text'] = eregi_replace ("\[charattack\]", $charattack, $next['text']);								
-								$nextsteps[] = array("id" => $next['to_id'], "text" => $next['text']);
+								$nextsteps[] = array("id" => $next['to_id'], "text" => $next['text'], "type" =>  $next['type']);
 							}		
 						}
 					} 

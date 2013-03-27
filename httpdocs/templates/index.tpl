@@ -154,6 +154,15 @@
 						<li><a class="button big articblue" href="http://ails.deviantart.com/art/420-Pixel-Art-Icons-for-RPG-129892453">Ails</a></li>
 					</ul>
 				</li>
+				<li>
+					<ul>
+						<li><strong>Música</strong></li>
+						<li>La música usada es propiedad de.</li>
+						<li><a class="button big articblue" href="http://www.rogersubirana.com/">Roger Subirana</a></li>
+						<li><a class="button big articblue" href="http://www.nomag.es/roger-subirana/">Descargar</a></li>
+						<li><a class="button big articblue" href="http://creativecommons.org/licenses/by-nc-nd/3.0/">Licencia CC</a></li>
+					</ul>
+				</li>
 			</ul>
 			<br/><br/><br/><br/>			
 		</article>

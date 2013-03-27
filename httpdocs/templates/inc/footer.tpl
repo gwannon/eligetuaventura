@@ -48,7 +48,7 @@
 				/*$$("#xp").text(result.xp);*/	
 				var equip = "";
 				for(var i = 0; i < result.equip.length; i++) {
-					equip = equip+ "<li><img src=\"/objects/object_"+result.equip[i].id+".jpg\"><strong>"+result.equip[i].name+"</strong><small>"+result.equip[i].bonus+"</small></li> ";
+					equip = equip+ "<li><img src=\"/objects/object_"+result.equip[i].id+".jpg\"><strong>"+result.equip[i].name+"</strong><small>"+result.equip[i].bonus+" "+result.equip[i].slot+"</small></li> ";
 				}	
 				$$("#equip").empty();
 				$$("#equip").prepend(equip);				
@@ -78,7 +78,7 @@
 					$$("#next").style('display', 'block');
 					$$("#next").style('visibility', 'visible');					
 					for(var i = 0; i < result.next.length; i++) {
-						next = next + "<li class=\"arrow\"><a href=\"#steps\" onclick=\"initAdventure("+result.next[i].id+");\" data-router=\"article\">"+result.next[i].text+"</a></li> ";
+						next = next + "<li class=\"arrow\"><img src=\"/objects/step_"+result.next[i].type+".jpg\"><a href=\"#steps\" onclick=\"initAdventure("+result.next[i].id+");\" data-router=\"article\">"+result.next[i].text+"</a></br></li> ";
 					}	
 				}
 
@@ -126,9 +126,10 @@
 				Lungo.View.Article.title("Tienda");	
 				var items = "";
 				for(var i = 0; i < result.length; i++) {
-					if (result[i].status == 'nogold') items = items + "<li><img src=\"/objects/object_"+result[i].id+".jpg\"><a href=\"#\" class=\"right button dark\">Sin dinero ("+result[i].gold+")</a><strong>"+result[i].name+"</strong><small>"+result[i].bonus+"</small></li>";
-					else if (result[i].status == 'bought') items = items + "<li><img src=\"/objects/object_"+result[i].id+".jpg\"><a href=\"#\" class=\"right button dark\">Comprado ("+result[i].gold+")</a><strong>"+result[i].name+"</strong><small>"+result[i].bonus+"</small></li>";
-					else if (result[i].status == 'buy') items = items + "<li><img src=\"/objects/object_"+result[i].id+".jpg\"><a href=\"#\" onclick= \"buyItem (currentCharId, '"+result[i].id+"')\" class=\"right button dark\">Comprar("+result[i].gold+")</a><strong>"+result[i].name+"</strong><small>"+result[i].bonus+"</small></li>";
+					if (result[i].status == 'noslot') items = items + "<li><img src=\"/objects/object_"+result[i].id+".jpg\"><a href=\"#\" class=\"right button cancel\">Slot Ocupado ("+result[i].gold+")</a><strong>"+result[i].name+"</strong><small>"+result[i].bonus+" "+result[i].slot+"</small></li>";
+					else if (result[i].status == 'nogold') items = items + "<li><img src=\"/objects/object_"+result[i].id+".jpg\"><a href=\"#\" class=\"right button dark\">Sin dinero ("+result[i].gold+")</a><strong>"+result[i].name+"</strong><small>"+result[i].bonus+" "+result[i].slot+"</small></li>";
+					else if (result[i].status == 'bought') items = items + "<li><img src=\"/objects/object_"+result[i].id+".jpg\"><a href=\"#\" onclick= \"sellItem (currentCharId, '"+result[i].id+"')\" class=\"right button theme\">Vender ("+result[i].gold+")</a><strong>"+result[i].name+"</strong><small>"+result[i].bonus+" "+result[i].slot+"</small></li>";
+					else if (result[i].status == 'buy') items = items + "<li><img src=\"/objects/object_"+result[i].id+".jpg\"><a href=\"#\" onclick= \"buyItem (currentCharId, '"+result[i].id+"')\" class=\"right button accept\">Comprar ("+result[i].gold+")</a><strong>"+result[i].name+"</strong><small>"+result[i].bonus+" "+result[i].slot+"</small></li>";
 				}
 				$$("#items").prepend(items);					
 			};
@@ -138,6 +139,15 @@
 		function buyItem (charid, itemid) {
 			var url = "/ajax.php";
 			var data = {action: 'buy', charid: charid, item: itemid};
+			var parseResponse = function(result){
+				console.log(result);
+				openShop(charid);	
+			};
+			Lungo.Service.json(url, data, parseResponse, "json");		
+		}
+		function sellItem (charid, itemid) {
+			var url = "/ajax.php";
+			var data = {action: 'sell', charid: charid, item: itemid};
 			var parseResponse = function(result){
 				console.log(result);
 				openShop(charid);	
