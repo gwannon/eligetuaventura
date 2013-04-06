@@ -11,15 +11,13 @@ if ($user_profile['id'] > 0) {
 	$smarty->assign("session", getSession($user_profile['id']));
 }
 
+//Listado de aventuras
 $smarty->assign("adventures", getAllAdventures ());
 
-$chars = array();
-$sql = "SELECT  `charname`, `charclass`, `charrace`, `xp` FROM  `AVE_chars` ORDER BY `AVE_chars`.`xp` DESC LIMIT 0, 50";
-$res = mysql_query($sql);
-while ($row = mysql_fetch_array($res, MYSQL_ASSOC)) {
-	$chars[] = $row;
-}
-$smarty->assign("rchars", $chars);
+//Listado de personajes del ranking
+$smarty->assign("rchars", getRanking ());
 
 $smarty->display('index.tpl');
 die;
+
+?>

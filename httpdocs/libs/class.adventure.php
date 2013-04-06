@@ -130,32 +130,21 @@ class steps
 
 function checkFail($checkfail, $session) {
 	global $player_classes;
-	//echo "<li>$checkfail";
 	$temp_fail = split ("\|", $checkfail);
-	//print_r ($temp_fail);
 	$temp_chance = split(",", $temp_fail[0]);
 	$chance = (isset($temp_chance[0])) ? $temp_chance[0] : "";
 	$hab = (isset($temp_chance[1])) ? $temp_chance[1] : "";
 	
 	$char = getChar($session['charid']);
 	
-	/*if ($char['charclass'] == 'P&iacute;caro' && $hab == 'ata') $hab = "des";
-	else if ($char['charclass'] == 'B&aacute;rbaro' && $hab == 'ata') $hab = "fue";
-	else if ($char['charclass'] == 'Guerrero' && $hab == 'ata') $hab = "fue";
-	else if ($char['charclass'] == 'Mago' && $hab == 'ata') $hab = "int";		
-	else if ($char['charclass'] == 'Cl&eacute;rigo' && $hab == 'ata') $hab = "sab";*/
 	if ($hab == 'ata') {
 		$temp_label = $char['charclass'];
 		$hab = $player_classes[$temp_label]['ata'];
-		//echo "<li>".$temp_label;
-		//echo "<li>".$hab;
-		//die;
 	}
 	
 	$redirect = (isset($temp_fail[1])) ? $temp_fail[1] : "";
 	$label = (isset($temp_fail[2])) ? $temp_fail[2] : "";
 	$value = (isset($temp_fail[3])) ? $temp_fail[3] : "";
-	//print_r ($session);
 	$return = array("id" => 0, "text" => "");
 	if ($checkfail != '') {
 		$char = getChar($session['charid']);
@@ -177,8 +166,6 @@ function checkFail($checkfail, $session) {
 			$html .= " = ".$dice." contra DIF ". $chance.". ";
 			$return['text'] = $html;
 		}
-
-		//echo "label: $label";
 		
 		if ($hab == 'dmg' && $dice < $chance) {
 			if (hasCharExtra ('status', 'magullado', $session)) {
@@ -197,32 +184,24 @@ function checkFail($checkfail, $session) {
 				return $return;
 			}
 		} else if ($dice < $chance) {
-			//echo "<li>2";
 			$return['id'] = $redirect;
 			return $return;
 		} else if ($label != '' && $value != '' && hasCharExtra ($label, $value, $session)) {
-			//echo "<li>1";
 			$return['id'] = $redirect;
 			return $return;
 		} else if ($label != '' && $value != '') {
-			//echo "<li>3";
 			updateCharExtra($label, $value, $session);
 		}
 	}
 	return 0;
 }
 
-function getEquipBonus($hab, $equip)
-{
+function getEquipBonus($hab, $equip) {
 	$bonus_equip = array("bonus" => 0, "items" => "");
-	//print_pre($equip);
-	//$equip = json_decode ($equip);
 	if (count($equip) > 0) {
-		foreach ($equip as $nombre=>$bonus)
-		{
+		foreach ($equip as $nombre=>$bonus) {
 			$temp_bonus = split("\|", $bonus);
-			if ($temp_bonus[1] == $hab)
-			{
+			if ($temp_bonus[1] == $hab) {
 				$bonus_equip['bonus'] = $bonus_equip['bonus'] + $temp_bonus[0];
 				$bonus_equip['items'] .= " - ". $nombre;
 			}
@@ -231,135 +210,104 @@ function getEquipBonus($hab, $equip)
 	return $bonus_equip;
 }
 
-function getAllAdventures ()
-{
+function getAllAdventures () {
 	$sql = "SELECT * FROM AVE_aventura ORDER BY id";
 	$res = mysql_query ($sql);
-	while ($row = mysql_fetch_array($res, MYSQL_ASSOC))
-	{
+	while ($row = mysql_fetch_array($res, MYSQL_ASSOC)) {
 		$datas[] = $row;
 	}
-
 	return $datas;
 }
 
-function getAdventure ($ave_id)
-{
+function getAdventure ($ave_id) {
 	$sql = "SELECT * FROM AVE_aventura WHERE id = $ave_id";
-	//echo $sql;
 	$res = mysql_query ($sql);
 	$row = mysql_fetch_array($res, MYSQL_ASSOC);
 	return $row;
 }
 
-
-function getStep($id)
-{
+function getStep($id) {
 	$sql = "SELECT * FROM AVE_step WHERE id = $id";
 	$res = mysql_query ($sql);
 	$row = mysql_fetch_array($res, MYSQL_ASSOC);
 	return $row;
 }
 
-function getNextSteps ($id)
-{
+function getNextSteps ($id) {
 	$datas = array();
 	$sql = "SELECT * FROM AVE_next_step WHERE from_id = $id ORDER BY type DESC";
-	//echo "<li>".$sql;
 	$res = mysql_query ($sql);
-	while ($row = mysql_fetch_array($res, MYSQL_ASSOC))
-	{
+	while ($row = mysql_fetch_array($res, MYSQL_ASSOC)) {
 		$datas[] = $row;
 	}
 	return $datas;
 }
 
-function generateVideoEmbed ($url_video, $thumb = false)
-{
-	if (ereg ("youtube", $url_video)) //VIDEO DE YOUTUBE
-	{
+function generateVideoEmbed ($url_video, $thumb = false) {
+	if (ereg ("youtube", $url_video)) {
 		$temp_url = split ("v=", $url_video);
 		$video_code = $temp_url[1];
-		if ($thumb) 
-		{
+		if ($thumb) {
 			//$html = "<object type=\"application/x-shockwave-flash\" style=\"width:425px;height:355px\" data=\"http://www.youtube.com/v/1RtWkywPJ5I&hl=en\"><param name=\"movie\" value=\"http://www.youtube.com/v/1RtWkywPJ5I&hl=en\" /></object>";
 
-		}
-		else 
-		{
+		} else {
 			$html = "<fb:swf swfbgcolor=\"000000\" imgstyle=\"border-width:3px; border-color:white;\" swfsrc='http://www.youtube.com/v/".$video_code."' imgsrc='http://img.youtube.com/vi/".$video_code."/2.jpg' width='340' height='270' />";
-
 		}
 	}
 	return $html;
 }
 
-function getChars ($profile_id)
-{
+function getChars ($profile_id) {
 	$sql = "SELECT * FROM AVE_chars WHERE profile_id = $profile_id";
 	$res = mysql_query ($sql);
-	while ($row = mysql_fetch_array($res, MYSQL_ASSOC))
-	{
+	while ($row = mysql_fetch_array($res, MYSQL_ASSOC)) {
 		$datas[] = $row;
 	}
 	return $datas;
 }
 
-function getChar($charid)
-{
-	if ($charid > 0)
-	{
+function getChar($charid) {
+	if ($charid > 0) {
 		$sql = "SELECT * FROM AVE_chars WHERE id = $charid";
 		$res = mysql_query ($sql);
 		$row = mysql_fetch_array($res, MYSQL_ASSOC);
 		$row['equip'] = json_decode($row['equip']);
-		//print_pre ($row);
 		return $row;
 	}
 }
 
-function createChar ($charname, $charclass, $charrace, $profile_id, $fue, $des, $con, $int, $sab, $car, $gold = 0, $equip, $god)
-{
+function createChar ($charname, $charclass, $charrace, $profile_id, $fue, $des, $con, $int, $sab, $car, $gold = 0, $equip, $god) {
 	$sql = "INSERT INTO `AVE_chars` (`id`,`charname`,`charclass`,`charrace`,`profile_id`,`fue`,`des`,`con`,`int`,`sab`,`car`,`gold`,`equip`,`god` ) VALUES ('', '".$charname."', '".$charclass."',  '".$charrace."','".$profile_id."', '".$fue."', '".$des."', '".$con."', '".$int."', '".$sab."', '".$car."', '".$gold."', '".$equip."', '".$god."')";
-	//echo $sql;
 	$res = mysql_query($sql);
 	return mysql_insert_id();
 }
 
-function addXP ($charid, $value)
-{
-
+function addXP ($charid, $value) {
 	if ($value > 0) $sql = " UPDATE `AVE_chars` SET xp = xp + $value WHERE id = $charid";
 	else  $sql = " UPDATE `AVE_chars` SET xp = xp $value WHERE id = $charid";
-	//echo "<li>$sql";
 	$res = mysql_query ($sql);
 	return sprintf (gettext("Has obtenido %s puntos de experiencia. "), $value);
 } 
 
-function addGold ($charid, $value)
-{
+function addGold ($charid, $value) {
 	$sql = " UPDATE `AVE_chars` SET gold = gold + $value WHERE id = $charid";
-	//echo "<li>$sql";
 	$res = mysql_query ($sql);
 	if ($value > 0) return sprintf (gettext("<img src=\"/objects/step_gold.jpg\"> Has ganado %s monedas de oro.<br/><br/>"), $value);
 	else if ($value < 0) return sprintf (gettext("<img src=\"/objects/step_gold.jpg\"> Has perdido %s monedas de oro.<br/><br/>"), abs ($value));
 } 
 
 
-function getHabBonus ($value)
-{
+function getHabBonus ($value) {
 	$value = $value -10;
 	$bonus = $value/2;
 	return intval($bonus);
 }
 
-function getLvlBonus ($value)
-{
+function getLvlBonus ($value) {
 	$end = 0;
 	$counter = 0;
 	$level = 0;
-	while ($end <= $value) 
-	{
+	while ($end <= $value) {
 		$counter++;
 		$end = $end + ($level*1000); 
 		if ($end <= $value) $level = $counter;
@@ -369,18 +317,13 @@ function getLvlBonus ($value)
 	return $lvlbonus;
 }
 
-function getSession($profile_id)
-{
+function getSession($profile_id) {
 	$sql = "SELECT * FROM AVE_session WHERE profile_id = $profile_id";
-	//echo "<li>".$sql;
 	$res = mysql_query ($sql);
 	$num = mysql_num_rows ($res);
-	if ($num > 0)
-	{
+	if ($num > 0) {
 		$row = mysql_fetch_array($res, MYSQL_ASSOC);
-	}
-	else
-	{
+	} else {
 		$sql = "INSERT INTO `AVE_session` (`profile_id`, `charid`) VALUES ('$profile_id', '')";
 		$res = mysql_query ($sql);
 		$row = array ("profile_id" => $profile_id);
@@ -388,53 +331,53 @@ function getSession($profile_id)
 	return $row;
 }
 
-function updateSession($profile_id, $label, $value)
-{
+function updateSession($profile_id, $label, $value) {
 	$sql = "UPDATE `AVE_session` SET $label = '$value' WHERE profile_id = $profile_id";
 	$res = mysql_query ($sql);
 }
 
-function updateCharExtra($label, $value, $session)
-{
+function updateCharExtra($label, $value, $session) {
 	$step = new steps ($session['step']);
 	$sql = "INSERT INTO `AVE_chars_extra` (`id`, `charid`, `label`, `value`, `ave_id`) VALUES (NULL, '".$session['charid']."', '$label', '$value', '".$step->getAveId()."' )";
-	//echo $sql;
 	$res = mysql_query ($sql);	
 }
 
-function deleteCharExtra($label, $value, $session)
-{
+function deleteCharExtra($label, $value, $session) {
 	$sql = "DELETE FROM `AVE_chars_extra` WHERE charid = '".$session['charid']."' AND label ='$label' AND value = '$value'";
-	//echo $sql;
 	$res = mysql_query ($sql);	
 }
 
-function hasCharExtra ($label, $value, $session)
-{
+function hasCharExtra ($label, $value, $session) {
 	$sql = "SELECT COUNT(id) AS total FROM `AVE_chars_extra` WHERE charid = '".$session['charid']."' AND label ='$label' AND value = '$value'";
-	//echo "<li>$sql";
 	$res = mysql_query ($sql);
 	$row = mysql_fetch_array ($res);
 	if ($row['total'] > 0) return true;
 	else return false;
 }
 
-function getCharExtra ($charid, $label)
-{
+function getCharExtra ($charid, $label) {
 	$datas = array();
 	$sql = "SELECT * FROM `AVE_chars_extra` WHERE charid = '".$charid."' AND label ='$label'";
 	$res = mysql_query ($sql);
-	while ($row = mysql_fetch_array ($res, MYSQL_ASSOC))
-	{
+	while ($row = mysql_fetch_array ($res, MYSQL_ASSOC)) {
 		$datas[] = $row;
 	}
 	return $datas;
 }
 
-function deleteAllCharExtraByAveId ($charid, $ave_id)
-{
+function deleteAllCharExtraByAveId ($charid, $ave_id) {
 	$sql = "DELETE FROM AVE_chars_extra WHERE charid = $charid AND ave_id = $ave_id";
 	$res = mysql_query ($sql);
+}
+
+function getRanking () {
+	$chars = array();
+	$sql = "SELECT  `charname`, `charclass`, `charrace`, `xp` FROM  `AVE_chars` ORDER BY `AVE_chars`.`xp` DESC LIMIT 0, 50";
+	$res = mysql_query($sql);
+	while ($row = mysql_fetch_array($res, MYSQL_ASSOC)) {
+		$chars[] = $row;
+	}
+	return $chars;
 }
 
 //Funciones varias --------------------------------------------------------------

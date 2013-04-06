@@ -3,7 +3,7 @@
 header('Access-Control-Allow-Origin: *');  
 
 require_once(dirname(__FILE__)."/config.php");
-//ini_set('display_errors', 1);
+
 $json = array();
 
 $action = $_REQUEST['action'];
@@ -15,7 +15,7 @@ if($action == "sell" && isset($_REQUEST['charid']) && $_REQUEST['charid'] > 0 &&
 	
 	$item_id = $_REQUEST['item'];
 	if (array_key_exists ($items[$item_id]['name'], $char_datas['equip'])) { //Comprabamos que no lo haya comprado antes
-		//metemos a pasta al Jugador
+		//Metemos a pasta al Jugador
 		$sql = " UPDATE `AVE_chars` SET gold = gold + ".($items[$item_id]['gold']/2)." WHERE id = $charid";
 		$res = mysql_query ($sql);
 		
@@ -45,7 +45,7 @@ if($action == "sell" && isset($_REQUEST['charid']) && $_REQUEST['charid'] > 0 &&
 			$sql = " UPDATE `AVE_chars` SET gold = gold - ".$items[$item_id]['gold']." WHERE id = $charid";
 			$res = mysql_query ($sql);
 			
-			//Actualziamos su equipo
+			//Actualizamos su equipo
 			$current_equip = array();
 			foreach ($char_datas['equip'] as $name=>$bonus)
 			{
@@ -53,12 +53,9 @@ if($action == "sell" && isset($_REQUEST['charid']) && $_REQUEST['charid'] > 0 &&
 			}
 			$new_object = $items[$item_id]['name'];
 			$current_equip[$new_object] = $items[$item_id]['bonus'];
-			//print_r ($current_equip);
 			$json =json_encode ($current_equip);
 			$sql = " UPDATE `AVE_chars` SET equip = '".$json."' WHERE id = $charid";
-			//echo "<li>$sql";
 			$res = mysql_query ($sql);
-		
 			$char_datas = getChar($charid);
 			$char_datas['equip'] = json_decode ($char_datas['equip']);
 		}
@@ -67,14 +64,10 @@ if($action == "sell" && isset($_REQUEST['charid']) && $_REQUEST['charid'] > 0 &&
 
 	$charid = $_REQUEST['charid'];
 	$char_datas = getChar($charid);
-	//$char_datas['equip'] = json_decode ($char_datas['equip']);
-	//print_pre($char_datas['equip']);
-	//print_pre($items);	
 	$slots = array();
 	foreach ($items as $key=>$item) {
 		if(array_key_exists ($item['name'], $char_datas['equip']) && !in_array($item['slot'], $slots)) $slots[] = $item['slot'];
 	}
-	//print_pre ($slots);
 	foreach ($items as $key=>$item) {
 		if(in_array($item['slot'], $slots) && !array_key_exists ($item['name'], $char_datas['equip'])) { 
 			$json[] = array("id" => $item['id'], "name" => $item['name'], "gold" => $item['gold'], "bonus" => $item['bonus'], "status" => "noslot", "slot" => $item['slot']);
@@ -88,9 +81,7 @@ if($action == "sell" && isset($_REQUEST['charid']) && $_REQUEST['charid'] > 0 &&
 			$json[] = array("id" => $item['id'], "name" => $item['name'], "gold" => $item['gold'], "bonus" => $item['bonus'], "status" => "nogold", "slot" => $item['slot']);
 		}
 	}	
-
 } else if ($action == "createchar" && isset($_REQUEST['charname']) && $_REQUEST['charname'] != '') { // Crear peronajes
-
 	$charname = $_REQUEST['charname'];
 	$charclass = $_REQUEST['charclass'];
 	$charrace = $_REQUEST['charrace'];
@@ -103,7 +94,6 @@ if($action == "sell" && isset($_REQUEST['charid']) && $_REQUEST['charid'] > 0 &&
 	$int = $player_classes[$charclass]['int'] + $player_races[$charrace]['int'] + $player_races[$chargod]['int'];  
 	$sab = $player_classes[$charclass]['sab'] + $player_races[$charrace]['sab'] + $player_races[$chargod]['sab'];  
 	$car = $player_classes[$charclass]['car'] + $player_races[$charrace]['car'] + $player_races[$chargod]['car']; 
-
 
 	foreach ($items as $item) {
 		if ($item['name'] == $player_classes[$charclass]['weapon']) {
@@ -130,10 +120,6 @@ if($action == "sell" && isset($_REQUEST['charid']) && $_REQUEST['charid'] > 0 &&
 		}
 		
 	}
-	/*print_pre ($char);
-	$char['charclass'] = html_entity_decode($char['charclass']);
-	print_pre ($char);	
-	$char['charrace'] = html_entity_decode($char['charrace']);*/
 	$char['equip'] = $equip;
 	$json = $char;
 } else if ($action == "initadv") { //INICIAMOS LA AVENTURA
