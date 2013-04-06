@@ -1,7 +1,7 @@
 Eligetuaventura
 ===============
 
-Eligetuaventura es un script en PHP para crear historias tipo "Elige tu propia aventura" con unos toques de RPG. Puedes ver un ejemplo de uso en http://heroesdenomariarka.com/.  Se usa Facebook para que los usuarios se logeen dentro de la aplicaición así que es necesario haber creado rpeviamente una aplicacíon en Facebook. De todas formas es muy facil preparar el script apra que tenga su propio sistema de registro y logeo.
+Eligetuaventura es un script en PHP para crear historias tipo "Elige tu propia aventura" con unos toques de RPG. Puedes ver un ejemplo de uso en http://heroesdenomariarka.com/. Se usa Facebook para que los usuarios se logeen dentro de la aplicación así que es necesario haber creado previamente una aplicacíon en Facebook. De todas formas es muy facil preparar el script para que tenga su propio sistema de registro y logeo.
 
 INSTALACIÓN
 -----------
@@ -13,8 +13,7 @@ INSTALACIÓN
 LICENCIA
 --------
 
-Esta aplicación esta distribuida bajo licencia GNU GPL, siente libre de hacer las alteraciones y cambios necesarias.
-
+Esta aplicación esta distribuida bajo licencia GNU GPL, sientete libre de hacer las alteraciones y cambios necesarias.
 
 Esta aplicación web ha sido desarrollada con el Framework LungoJS y el sistema de plantillas de Smarty. En cumplimiento de la Licencia de LungoJS se puede obtener todo el código usado en la aplicación web de Eligetuaventura en https://github.com/gwannon/eligetuaventura/.
 
