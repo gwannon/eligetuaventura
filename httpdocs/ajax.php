@@ -94,16 +94,29 @@ if($action == "sell" && isset($_REQUEST['charid']) && $_REQUEST['charid'] > 0 &&
 	$charname = $_REQUEST['charname'];
 	$charclass = $_REQUEST['charclass'];
 	$charrace = $_REQUEST['charrace'];
+	$chargod = $_REQUEST['chargod'];
 	$user_profile_id = $_REQUEST ['userid'];
 	
-	$fue = $player_classes[$charclass]['fue'] + $player_races[$charrace]['fue']; 
-	$des = $player_classes[$charclass]['des'] + $player_races[$charrace]['des']; 
-	$con = $player_classes[$charclass]['con'] + $player_races[$charrace]['con'];  
-	$int = $player_classes[$charclass]['int'] + $player_races[$charrace]['int'];  
-	$sab = $player_classes[$charclass]['sab'] + $player_races[$charrace]['sab'];  
-	$car = $player_classes[$charclass]['car'] + $player_races[$charrace]['car']; 
+	$fue = $player_classes[$charclass]['fue'] + $player_races[$charrace]['fue'] + $player_races[$chargod]['fue']; 
+	$des = $player_classes[$charclass]['des'] + $player_races[$charrace]['des'] + $player_races[$chargod]['des']; 
+	$con = $player_classes[$charclass]['con'] + $player_races[$charrace]['con'] + $player_races[$chargod]['con'];  
+	$int = $player_classes[$charclass]['int'] + $player_races[$charrace]['int'] + $player_races[$chargod]['int'];  
+	$sab = $player_classes[$charclass]['sab'] + $player_races[$charrace]['sab'] + $player_races[$chargod]['sab'];  
+	$car = $player_classes[$charclass]['car'] + $player_races[$charrace]['car'] + $player_races[$chargod]['car']; 
 
-	$char_id = createChar ($charname, $charclass, $charrace, $user_profile_id, $fue, $des, $con, $int, $sab, $car, $initial_gold);
+
+	foreach ($items as $item) {
+		if ($item['name'] == $player_classes[$charclass]['weapon']) {
+			$equip_label = $item['name'];
+			$equip_bonus = $item['bonus'];
+			$equip[$equip_label] = $equip_bonus;
+			break;
+		}
+	}
+
+	$equip = json_encode ($equip);
+
+	$char_id = createChar ($charname, $charclass, $charrace, $user_profile_id, $fue, $des, $con, $int, $sab, $car, $initial_gold, $equip, $chargod);
 	$json = getChar($char_id);
 } else if ($action == "getchar") { //SACAMOS LOS DATOS DEL PERSONAJE
 	$char = getChar(intval($_REQUEST['charid']));
@@ -143,6 +156,14 @@ if($action == "sell" && isset($_REQUEST['charid']) && $_REQUEST['charid'] > 0 &&
 
 	if ($check_id > 0) {
 		$step = new steps ($check_id); 
+		$temp = checkFail($step->getFail(), $session);
+		$json['message'] .= "<br/>" . $temp['text'];
+		$check_id = $temp['id'];
+		if ($check_id > 0) {
+			$step = new steps ($check_id); 
+			$temp = checkFail($step->getFail(), $session);
+			$json['message'] .= "<br/>" . $temp['text'];
+		}
 	}
 	
 	if ($step->getXP() != 0) $json['message'] .= addXP ($session['charid'], $step->getXP());

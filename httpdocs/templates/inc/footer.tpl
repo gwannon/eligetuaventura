@@ -10,7 +10,10 @@
         });
 		
 		var currentCharId;
+
 		{/literal}
+		{if $user}var currentSection = 'chars-list';{else}var currentSection = 'presentation';{/if}
+		var currentSectionTitle = '{$Name}';		
 		{if $user_profile.id}var currentUserId = {$user_profile.id};{/if}
 		{if $session.step}
 		currentCharId = {$session.charid};
@@ -20,7 +23,7 @@
 		
 		function createChar() {
 			var url = "/ajax.php";
-			var data = {action: 'createchar', userid: currentUserId, charname: $$("#newname").val(), charclass: $$("#newclass").val(), charrace: $$("#newrace").val()};
+			var data = {action: 'createchar', userid: currentUserId, charname: $$("#newname").val(), charclass: $$("#newclass").val(), charrace: $$("#newrace").val(), chargod: $$("#newgod").val()};
 			var parseResponse = function(result){
 				console.log(result);
 				$$("#chars-li").append("<li><img src=\"/objects/class_"+result.charclass+".jpg\"><a href=\"#\" onclick=\"getChar("+result.id+");\"><strong>"+result.charname+"</strong><small>"+result.charclass+"/"+result.charrace+"</small></a></li>");
@@ -30,6 +33,8 @@
 		
 		function getChar(charid) {
 			Lungo.Router.article("index", "charsheet");
+			currentSection = 'charsheet';
+			$$('#footer_home').addClass('active');
 			var url = "/ajax.php";
 			var data = {action: 'getchar', charid: charid};
 			var parseResponse = function(result){
@@ -37,7 +42,7 @@
 				Lungo.View.Article.title(result.charname);	
 				currentCharId = result.id;
 				$$("#charinfo").empty();
-				$$("#charinfo").append("<img src=\"/objects/class_"+result.charclass+".jpg\"><strong>"+result.charclass+"/"+result.charrace+"</strong><small>XP: "+result.xp+"</small>");
+				$$("#charinfo").append("<img src=\"/objects/class_"+result.charclass+".jpg\"><strong>"+result.charclass+"/"+result.charrace+"/Reza a "+result.god+"</strong><small>XP: "+result.xp+"</small>");
 				$$("#fue").text(result.fue);				
 				$$("#des").text(result.des);				
 				$$("#con").text(result.con);				
@@ -58,10 +63,12 @@
 		
 		function initAdventure(stepId) {
 			Lungo.Router.article("index", "steps");
+			currentSection = 'steps';
+			$$('#footer_home').addClass('active');
 			var url = "/ajax.php";
 			var data = {action: 'initadv', stepid: stepId, charid: currentCharId, userid: currentUserId};
 			var parseResponse = function(result){
-				//console.log(result);
+				console.log(result);
 				$$("#steptext").empty();			
 				$$("#steptext").prepend(result.step);
 				Lungo.View.Article.title(result.adv.title);				
@@ -118,6 +125,8 @@
 		
 		function openShop(charid) {
 			Lungo.Router.article("index", "shop");
+			currentSection = 'shop';
+			$$('#footer_home').addClass('active');
 			var url = "/ajax.php";
 			var data = {action: 'shop', charid: charid};
 			var parseResponse = function(result){
@@ -125,11 +134,23 @@
 				$$("#items").empty();
 				Lungo.View.Article.title("Tienda");	
 				var items = "";
+				var slot = '';
 				for(var i = 0; i < result.length; i++) {
-					if (result[i].status == 'noslot') items = items + "<li><img src=\"/objects/object_"+result[i].id+".jpg\"><a href=\"#\" class=\"right button cancel\">Slot Ocupado ("+result[i].gold+")</a><strong>"+result[i].name+"</strong><small>"+result[i].bonus+" "+result[i].slot+"</small></li>";
+					if (result[i].slot != slot && slot != '') {
+												
+						items = items + "</ul></li>";
+					}
+					if (result[i].slot != slot) {
+						items = items + "<li><strong>"+result[i].slot+"</strong><ul>";
+						slot = result[i].slot;
+					} 
+					if (result[i].status == 'noslot') items = items + "<li><img src=\"/objects/object_"+result[i].id+".jpg\"><a href=\"#\" class=\"right button cancel\">Ranura ocupada ("+result[i].gold+")</a><strong>"+result[i].name+"</strong><small>"+result[i].bonus+" "+result[i].slot+"</small></li>";
 					else if (result[i].status == 'nogold') items = items + "<li><img src=\"/objects/object_"+result[i].id+".jpg\"><a href=\"#\" class=\"right button dark\">Sin dinero ("+result[i].gold+")</a><strong>"+result[i].name+"</strong><small>"+result[i].bonus+" "+result[i].slot+"</small></li>";
 					else if (result[i].status == 'bought') items = items + "<li><img src=\"/objects/object_"+result[i].id+".jpg\"><a href=\"#\" onclick= \"sellItem (currentCharId, '"+result[i].id+"')\" class=\"right button theme\">Vender ("+result[i].gold+")</a><strong>"+result[i].name+"</strong><small>"+result[i].bonus+" "+result[i].slot+"</small></li>";
 					else if (result[i].status == 'buy') items = items + "<li><img src=\"/objects/object_"+result[i].id+".jpg\"><a href=\"#\" onclick= \"buyItem (currentCharId, '"+result[i].id+"')\" class=\"right button accept\">Comprar ("+result[i].gold+")</a><strong>"+result[i].name+"</strong><small>"+result[i].bonus+" "+result[i].slot+"</small></li>";
+
+
+					 
 				}
 				$$("#items").prepend(items);					
 			};
@@ -154,15 +175,29 @@
 			};
 			Lungo.Service.json(url, data, parseResponse, "json");		
 		}
-		
-    </script>
+		function getCharList() {
+			Lungo.Router.article("index", "chars-list");
+			currentSection = 'chars-list';
+			$$('#footer_home').addClass('active');
+		}
+		function moveCurrentSection() {
+			Lungo.Router.article("index", currentSection);
+			$$('#footer_home').addClass('active');
+			Lungo.View.Article.title(currentSectionTitle);
+		}
+    	</script>
 	{/literal}	
 	{else}
 	<script>
         Lungo.init({
             name: 'eligetuaventura'
-        });	
-    </script>	
+        });
+	function moveCurrentSection() {
+		Lungo.Router.article("index", currentSection);
+		$$('#footer_home').addClass('active');
+		Lungo.View.Article.title(currentSectionTitle);
+	}	
+    	</script>	
 	{/if}
 
 </body>

@@ -560,3 +560,14 @@ form .progress .bar .value,
 .form .progress .bar .value {
   background-color: #b32d04;
 }
+
+table thead tr td {
+	padding: 2px 2px 2px 2px;
+	font-weight: bold;	
+}
+
+
+table tobody tr td {
+	padding: 2px 2px 2px 2px;
+
+}

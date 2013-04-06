@@ -27,27 +27,36 @@
 					<input type="text" id="newname">
 				</fieldset>
 				<label><strong>Clase</strong></label>
-                <label class="select">
-                    <select class="custom" id="newclass">
-                        {foreach from=$player_classes key=k item=v}
-			<option value="{$k}">{$k}</option>
-			{/foreach}
-                    </select>
-                </label>
+				<label class="select">
+				    <select class="custom" id="newclass">
+				        {foreach from=$player_classes key=k item=v}
+					<option value="{$k}">{$k}</option>
+					{/foreach}
+				    </select>
+				</label>
 				<label><strong>Raza</strong></label>
-                <label class="select">
-                    <select class="custom" id="newrace">
-                        {foreach from=$player_races key=k item=v}
-			<option value="{$k}">{$k}</option>
-			{/foreach}
-                    </select>
-                </label>
+				<label class="select">
+				    <select class="custom" id="newrace">
+				        {foreach from=$player_races key=k item=v}
+					<option value="{$k}">{$k}</option>
+					{/foreach}
+				    </select>
+				</label>
+				<label><strong>Reza al Dios</strong></label>
+				<label class="select">
+				    <select class="custom" id="newgod">
+				        {foreach from=$player_gods key=k item=v}
+					<option value="{$k}">{$k} - {$v.desc}</option>
+					{/foreach}
+				    </select>
+				</label>
 				<a href="#" onclick="createChar();" class="button dark">Crear</a>
 			</div>
+			<br/><br/><br/><br/>
 		</article>
 		<article id="charsheet" class="list indented scroll">
 			<ul>
-				<li class="dark"><a href="#chars-list" data-router="article" data-title="{$Name}" class="button right">Cambiar personaje</a><strong>Atributos</strong><small>Atributos del personaje, oro y nivel</small></li>
+				<li class="dark"><a href="#chars-list" onclick="getCharList();" data-router="article" data-title="{$Name}" class="button right">Cambiar personaje</a><strong>Atributos</strong><small>Atributos y nivel del personaje</small></li>
 				<li>
 					<ul>
 						<li id="charinfo"></li>
@@ -59,9 +68,10 @@
 						<li><img src="/objects/atr_car.jpg"><small>CAR</small><strong id="car">0</strong></li>
 					</ul>
 				</li>
-				<li><img src="/objects/atr_gold.jpg"><small>ORO</small><strong id="gold">0</strong></li>
 				<!-- <li><img src="/objects/atr_xp.jpg"><small>PX</small><strong id="xp">0</strong></li> -->					
-				<li class="dark"><a href="#" onclick="openShop(currentCharId);" class="button right">Comprar</a><strong>Equipo</strong><small>Equipo especial del personaje</small></li>
+				<li class="dark"><a href="#" onclick="openShop(currentCharId);" class="button right">Comprar</a><strong>Equipo</strong><small>Equipo especial y dinero del personaje</small></li>
+				<li><img src="/objects/atr_gold.jpg"><small>ORO</small><strong id="gold">0</strong></li>
+				
 				<li>
 					<ul id="equip"></ul>
 				</li>
@@ -77,23 +87,24 @@
 				</li>	
 				{/if}
 			</ul>
-			
+			<br/><br/><br/><br/>			
 		</article>
 		<article id="steps" class="{if $session.step}active {/if}list indented scroll">
 			<p id="steptext"></p>
 			<ul id="next"></ul>
 			<ul>
-				<li id="endbutton"><a href="#chars-list" data-router="article" data-title="{$Name}" class="button dark">Terminar</a></li>
+				<li id="endbutton"><a href="#chars-list" onclick="getCharList();" data-router="article" data-title="{$Name}" class="button dark">Terminar</a></li>
 				<li id="message"></li>
 				<li id="status"></li>				
 			</ul>
+			<br/><br/><br/><br/>
 		</article>
 		<article id="shop" class="list indented scroll">
 			<ul>
-				<li class="dark"><a href="#" onclick="getChar(currentCharId);" class="button right">Salir</a><strong>Comprar</strong><small>Compra objetos mágicos te te ayuden</small></li>
+				<li class="dark"><a href="#" onclick="getChar(currentCharId);" class="button right">Salir</a><strong>Comprar</strong><small>Compra y vende objetos mágicos que te ayuden en tus aventuras</small></li>
 
 			</ul><ul id="items"></ul>
-			
+			<br/><br/><br/><br/>			
 		</article>
 		{else}
 		<article id="presentation" class="active list indented scroll">
@@ -124,67 +135,43 @@
 						document.getElementById('fb-root').appendChild(e);
 					  }());
 					</script>	
-				</Wli>
+				</li>
+				{if $adventures}
+				<li class="dark"><strong>Aventuras para jugar</strong></li>
+				<li>
+					<ul>	
+						{section name=inc loop=$adventures}
+						<li><strong>{$adventures[inc].title}</strong><small>{$adventures[inc].text}</small></li>
+						{/section}
+					</ul>
+				</li>	
+				{/if}
 			</ul>
 		</article>			
+		{/if}
 		<article id="ranking" class="list indented scroll">
 			<ul>
-				{section name=inc loop=$chars}
-				<li><img src="/objects/class_{$chars[inc].charclass}.jpg"><strong>{$chars[inc].xp} {$chars[inc].charname}</strong> <small>{$chars[inc].charclass}/{$chars[inc].charrace}</small></li>
+				{section name=inc loop=$rchars}
+				<li><img src="/objects/class_{$rchars[inc].charclass}.jpg"><strong>{$rchars[inc].xp} {$rchars[inc].charname}</strong> <small>{$rchars[inc].charclass}/{$rchars[inc].charrace}</small></li>
 				{/section}
 			</ul>
 			<br/><br/><br/><br/>
 		</article>
 		<article id="legal" class="list indented scroll">
-			<ul>
-				<li>
-					<ul>
-						<li><strong>Licencia de la aplicación web de Eligetuaventura</strong></li>
-						<li>Esta aplicación web ha sido desarrollada con el Framework LungoJS. En cumplimiento de la Licencia de LungoJS se puede obtener todo el código usado en la aplicación web de Eligetuaventura.</li>
-						<li>Sientete libre de coger este código y modificarlo a tu gusto (respetando la licencía sobre la que esta desarrollado) y si necesitas ayuda no dudes en preguntar. También te agradecemos por adelantado cualquier tipo de sugerencia o error que detectes.</li>	
-						<li><a class="button big articblue" href="https://github.com/gwannon/eligetuaventura">Descargar código fuente</a></li>
-						<li><a class="button big articblue" href="https://github.com/TapQuo/Lungo.js/blob/master/LICENSE.txt" target="_blank">LUNGOJS</a></li>
-					</ul>
-				</li>
-				<li>
-					<ul>
-						<li><strong>Iconos</strong></li>
-						<li>Los iconos usados son propiedad de.</li>
-						<li><a class="button big articblue" href="http://browse.deviantart.com/art/Icon-Set-C-Blue-Galewind-V-303578710">Blue-Galewind</a></li>
-						<li><a class="button big articblue" href="http://ails.deviantart.com/art/420-Pixel-Art-Icons-for-RPG-129892453">Ails</a></li>
-					</ul>
-				</li>
-				<li>
-					<ul>
-						<li><strong>Música</strong></li>
-						<li>La música usada es propiedad de.</li>
-						<li><a class="button big articblue" href="http://www.rogersubirana.com/">Roger Subirana</a></li>
-						<li><a class="button big articblue" href="http://www.nomag.es/roger-subirana/">Descargar</a></li>
-						<li><a class="button big articblue" href="http://creativecommons.org/licenses/by-nc-nd/3.0/">Licencia CC</a></li>
-					</ul>
-				</li>
-			</ul>
+			{include file="inc/legal.tpl"}
 			<br/><br/><br/><br/>			
 		</article>
 		<article id="info" class="list indented scroll">
-			<ul>
-				<li>
-					<ul>
-						<li><strong>Ayuda del juego</strong></li>
-						<li>Heroes de Nomariarka es un juego de tipo 'Elige tu propia aventura' con toques de RPG ambientado en el mundo mediaval fantástico de Nomariarka.</li>
-					</ul>
-				</li>
-			</ul>
+			{include file="inc/help.tpl"}
 			<br/><br/><br/><br/>			
 		</article>	
 		<footer>
 			<nav>
-				<a href="#presentation" data-router="article" class="active"><img src="/objects/home.png" /></a>
-				<a href="#ranking" data-router="article"><img src="/objects/ranking.png" /></a>
-				<a href="#info" data-router="article"><img src="/objects/info.png" /></a>
-				<a href="#legal" data-router="article"><img src="/objects/legal.png" /></a>
+				<a href="#" onclick="moveCurrentSection();" id="footer_home" class="active" data-router="article"><img src="/objects/home.png" /></a>
+				<a href="#ranking" data-router="article" data-title="Ranking"><img src="/objects/ranking.png" /></a>
+				<a href="#info" data-router="article" data-title="Ayuda"><img src="/objects/info.png" /></a>
+				<a href="#legal" data-router="article" data-title="Aviso legal"><img src="/objects/legal.png" /></a>
 			</nav>
-		</footer>		
-		{/if}
+		</footer>
     </section>
 {include file="inc/footer.tpl"}

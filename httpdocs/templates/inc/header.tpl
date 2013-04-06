@@ -62,19 +62,6 @@
 	</script>
 	<audio autoplay loop>
 		<source src="/music/02-RogerSubirana-PointOfNoReturn2008-PointOfNoReturn.mp3">
-		<source src="/music/03-RogerSubirana-PointOfNoReturn2008-Thryst.mp3">
-		<source src="/music/04-RogerSubirana-PointOfNoReturn2008-APieceOfHeaven.mp3">
-		<source src="/music/05-RogerSubirana-PointOfNoReturn2008-TheMask.mp3">
-		<source src="/music/06-RogerSubirana-PointOfNoReturn2008-SilentTears.mp3">
-		<source src="/music/07-RogerSubirana-PointOfNoReturn2008-LiveInOnara.mp3">
-		<source src="/music/08-RogerSubirana-PointOfNoReturn2008-TheHoodoosWhisper.mp3">
-		<source src="/music/09-RogerSubirana-PointOfNoReturn2008-Morphosis.mp3">
-		<source src="/music/10-RogerSubirana-PointOfNoReturn2008-IslandOfLight.mp3">
-		<source src="/music/11-RogerSubirana-PointOfNoReturn2008-Requiem.mp3">
-		<source src="/music/12-RogerSubirana-PointOfNoReturn2008-TalesOfTrees.mp3">
-		<source src="/music/13-RogerSubirana-PointOfNoReturn2008-BloodBrother.mp3">
-		<source src="/music/4-RogerSubirana-PointOfNoReturn2008-Enjoit.mp3">
-		<source src="/music/01-RogerSubirana-PointOfNoReturn2008-Pyraminx.mp3">	
 	</audio>
  
 </head>

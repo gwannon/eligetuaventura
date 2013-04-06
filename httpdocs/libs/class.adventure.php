@@ -70,7 +70,7 @@ class steps
 			$char = getChar($session['charid']);
 			$temp_label = $char['charclass'];
 			$charattack = $player_classes[$temp_label]['charattack'];
-			
+			//print_pre ($char);
 			foreach ($nexts as $next)
 			{
 				if ($next['fail'] == "")
@@ -84,12 +84,16 @@ class steps
 				else
 				{
 					$temp_fail = split (";", $next['fail']);
-
+					
 					if (count ($temp_fail)  == 1)
 					{
 						$fail = split ("\|", $temp_fail[0]);
-						if (hasCharExtra ($fail[1], $fail[0], $session))
-						{
+						if ($fail[1] == 'gold' && $fail[0] > 0 && $char['gold'] >= $fail[0]) {
+							$next['text'] = eregi_replace ("\[charname\]", $char['charname'], $next['text']);
+							$next['text'] = eregi_replace ("\[charrace\]", $char['charrace'], $next['text']);
+							$next['text'] = eregi_replace ("\[charattack\]", $charattack, $next['text']);							
+							$nextsteps[] = array("id" => $next['to_id'], "text" => $next['text'], "type" =>  $next['type']);
+						} else if (hasCharExtra ($fail[1], $fail[0], $session)) {
 							$next['text'] = eregi_replace ("\[charname\]", $char['charname'], $next['text']);
 							$next['text'] = eregi_replace ("\[charrace\]", $char['charrace'], $next['text']);
 							$next['text'] = eregi_replace ("\[charattack\]", $charattack, $next['text']);							
@@ -153,36 +157,54 @@ function checkFail($checkfail, $session) {
 	$value = (isset($temp_fail[3])) ? $temp_fail[3] : "";
 	//print_r ($session);
 	$return = array("id" => 0, "text" => "");
-	if ($checkfail != '')
-	{
+	if ($checkfail != '') {
 		$char = getChar($session['charid']);
-		$bonus = (isset($char[$hab])) ? getHabBonus ($char[$hab]): "";
-		$equip_bonus = getEquipBonus($hab, $char['equip']);
+		
 		$lvlbonus = getLvlBonus ($char['xp']);
 		$dice = rand (1,20);
-		if ($chance > 0) 
-		{
+		if ($hab == 'dmg' && $chance > 0) {
+			$equip_bonus = getEquipBonus('con', $char['equip']);
+			$bonus = (isset($char['con'])) ? getHabBonus ($char[$hab]): "";
+			$html = $dice . " (D20) + " . $bonus ." (".$char['con']." con) + ".$lvlbonus['bonus']." (Nivel  ".$lvlbonus['level'].") + ".$equip_bonus['bonus']." ( Equipo ".$equip_bonus['items'].") ";
+			$dice = $dice + $bonus + $equip_bonus['bonus'] + $lvlbonus['bonus'];
+			$html .= " = ".$dice." contra DIF ". $chance.". ";
+			$return['text'] = $html;
+		} else if ($chance > 0) {
+			$equip_bonus = getEquipBonus($hab, $char['equip']);
+			$bonus = (isset($char[$hab])) ? getHabBonus ($char[$hab]): "";
 			$html = $dice . " (D20) + " . $bonus ." (".$char[$hab]." ". $hab .") + ".$lvlbonus['bonus']." (Nivel  ".$lvlbonus['level'].") + ".$equip_bonus['bonus']." ( Equipo ".$equip_bonus['items'].") ";
 			$dice = $dice + $bonus + $equip_bonus['bonus'] + $lvlbonus['bonus'];
 			$html .= " = ".$dice." contra DIF ". $chance.". ";
 			$return['text'] = $html;
 		}
+
 		//echo "label: $label";
 		
-		if (hasCharExtra ($label, $value, $session))
-		{
-			//echo "<li>1";
-			$return['id'] = $redirect;
-			return $return;
-		}	
-		else if ($dice < $chance) 
-		{
+		if ($hab == 'dmg' && $dice < $chance) {
+			if (hasCharExtra ('status', 'magullado', $session)) {
+				deleteCharExtra('status', 'magullado', $session);
+				updateCharExtra('status', 'herido', $session);
+				$return['text'] = "<img src=\"/objects/step_damage.jpg\"> Estas herido.<br/><br/>";
+				return $return;
+			} else if (hasCharExtra ('status', 'herido', $session)) {
+				deleteCharExtra('status', 'herido', $session);
+				updateCharExtra('status', 'insconciente', $session);
+				$return['id'] = $redirect;
+				return $return;
+			} else {
+				updateCharExtra('status', 'magullado', $session);
+				$return['text'] = "<img src=\"/objects/step_damage.jpg\"> Estas magullado.<br/><br/>";
+				return $return;
+			}
+		} else if ($dice < $chance) {
 			//echo "<li>2";
 			$return['id'] = $redirect;
 			return $return;
-		}	
-		else if ($label != '' && $value != '')
-		{
+		} else if ($label != '' && $value != '' && hasCharExtra ($label, $value, $session)) {
+			//echo "<li>1";
+			$return['id'] = $redirect;
+			return $return;
+		} else if ($label != '' && $value != '') {
 			//echo "<li>3";
 			updateCharExtra($label, $value, $session);
 		}
@@ -211,7 +233,7 @@ function getEquipBonus($hab, $equip)
 
 function getAllAdventures ()
 {
-	$sql = "SELECT * FROM AVE_aventura";
+	$sql = "SELECT * FROM AVE_aventura ORDER BY id";
 	$res = mysql_query ($sql);
 	while ($row = mysql_fetch_array($res, MYSQL_ASSOC))
 	{
@@ -242,7 +264,7 @@ function getStep($id)
 function getNextSteps ($id)
 {
 	$datas = array();
-	$sql = "SELECT * FROM AVE_next_step WHERE from_id = $id";
+	$sql = "SELECT * FROM AVE_next_step WHERE from_id = $id ORDER BY type DESC";
 	//echo "<li>".$sql;
 	$res = mysql_query ($sql);
 	while ($row = mysql_fetch_array($res, MYSQL_ASSOC))
@@ -296,9 +318,9 @@ function getChar($charid)
 	}
 }
 
-function createChar ($charname, $charclass, $charrace, $profile_id, $fue, $des, $con, $int, $sab, $car, $gold = 0)
+function createChar ($charname, $charclass, $charrace, $profile_id, $fue, $des, $con, $int, $sab, $car, $gold = 0, $equip, $god)
 {
-	$sql = "INSERT INTO `AVE_chars` (`id`,`charname`,`charclass`,`charrace`,`profile_id`,`fue`,`des`,`con`,`int`,`sab`,`car`,`gold`) VALUES ('', '".$charname."', '".$charclass."',  '".$charrace."','".$profile_id."', '".$fue."', '".$des."', '".$con."', '".$int."', '".$sab."', '".$car."', '".$gold."')";
+	$sql = "INSERT INTO `AVE_chars` (`id`,`charname`,`charclass`,`charrace`,`profile_id`,`fue`,`des`,`con`,`int`,`sab`,`car`,`gold`,`equip`,`god` ) VALUES ('', '".$charname."', '".$charclass."',  '".$charrace."','".$profile_id."', '".$fue."', '".$des."', '".$con."', '".$int."', '".$sab."', '".$car."', '".$gold."', '".$equip."', '".$god."')";
 	//echo $sql;
 	$res = mysql_query($sql);
 	return mysql_insert_id();
@@ -319,7 +341,8 @@ function addGold ($charid, $value)
 	$sql = " UPDATE `AVE_chars` SET gold = gold + $value WHERE id = $charid";
 	//echo "<li>$sql";
 	$res = mysql_query ($sql);
-	return sprintf (gettext("Has ganado %s monedas de oro. "), $value);
+	if ($value > 0) return sprintf (gettext("<img src=\"/objects/step_gold.jpg\"> Has ganado %s monedas de oro.<br/><br/>"), $value);
+	else if ($value < 0) return sprintf (gettext("<img src=\"/objects/step_gold.jpg\"> Has perdido %s monedas de oro.<br/><br/>"), abs ($value));
 } 
 
 
@@ -375,6 +398,13 @@ function updateCharExtra($label, $value, $session)
 {
 	$step = new steps ($session['step']);
 	$sql = "INSERT INTO `AVE_chars_extra` (`id`, `charid`, `label`, `value`, `ave_id`) VALUES (NULL, '".$session['charid']."', '$label', '$value', '".$step->getAveId()."' )";
+	//echo $sql;
+	$res = mysql_query ($sql);	
+}
+
+function deleteCharExtra($label, $value, $session)
+{
+	$sql = "DELETE FROM `AVE_chars_extra` WHERE charid = '".$session['charid']."' AND label ='$label' AND value = '$value'";
 	//echo $sql;
 	$res = mysql_query ($sql);	
 }
