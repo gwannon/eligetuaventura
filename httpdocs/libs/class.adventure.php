@@ -129,7 +129,7 @@ class steps
 } # class steps
 
 function checkFail($checkfail, $session) {
-	global $player_classes;
+	global $player_classes, $Skin, $items;
 	$temp_fail = split ("\|", $checkfail);
 	$temp_chance = split(",", $temp_fail[0]);
 	$chance = (isset($temp_chance[0])) ? $temp_chance[0] : "";
@@ -171,7 +171,7 @@ function checkFail($checkfail, $session) {
 			if (hasCharExtra ('status', 'magullado', $session)) {
 				deleteCharExtra('status', 'magullado', $session);
 				updateCharExtra('status', 'herido', $session);
-				$return['text'] = "<img src=\"/objects/step_damage.jpg\"> Estas herido.<br/><br/>";
+				$return['text'] = "<img src=\"/skins/".$Skin."/objects/step_damage.jpg\"> Estas herido.<br/><br/>";
 				return $return;
 			} else if (hasCharExtra ('status', 'herido', $session)) {
 				deleteCharExtra('status', 'herido', $session);
@@ -180,12 +180,49 @@ function checkFail($checkfail, $session) {
 				return $return;
 			} else {
 				updateCharExtra('status', 'magullado', $session);
-				$return['text'] = "<img src=\"/objects/step_damage.jpg\"> Estas magullado.<br/><br/>";
+				$return['text'] = "<img src=\"/skins/".$Skin."/objects/step_damage.jpg\"> Estas magullado.<br/><br/>";
 				return $return;
 			}
 		} else if ($dice < $chance) {
 			$return['id'] = $redirect;
 			return $return;
+		} else if ($label == 'object' && $value == 'random') {
+			
+
+			//Actualizamos su equipo
+			$current_equip = array();
+			$slots = array();
+			foreach ($char['equip'] as $name=>$bonus) {
+				$current_equip[$name] = $bonus;
+
+				foreach($items as $key=>$item) {
+					if ($name == $item['name']) {
+						unset($items[$key]);
+						if (!in_array($item['slot'], $slots)) $slots[] = $item['slot'];
+					}
+					if (in_array($item['slot'], $slots) ){
+						unset($items[$key]);
+					}
+				}
+
+			}
+
+			shuffle ($items);
+
+			$control = 0;
+			while ($control == 0) {
+				$rand = rand(1, (count($items)-1));
+				$new_object = $items[$rand]['name'];
+				$current_equip[$new_object] = $items[$rand]['bonus'];
+				$control = 1;
+			}
+			if ($new_object != '') {
+				$json =json_encode ($current_equip);
+				$sql = " UPDATE `AVE_chars` SET equip = '".$json."' WHERE id = ".$session['charid'];
+				$res = mysql_query ($sql);
+				$return['text'] .= "Has conseguido ".$new_object.".<br/>";
+				return $return; 
+			}
 		} else if ($label != '' && $value != '' && hasCharExtra ($label, $value, $session)) {
 			$return['id'] = $redirect;
 			return $return;
@@ -290,10 +327,11 @@ function addXP ($charid, $value) {
 } 
 
 function addGold ($charid, $value) {
+	global $Skin;
 	$sql = " UPDATE `AVE_chars` SET gold = gold + $value WHERE id = $charid";
 	$res = mysql_query ($sql);
-	if ($value > 0) return sprintf (gettext("<img src=\"/objects/step_gold.jpg\"> Has ganado %s monedas de oro.<br/><br/>"), $value);
-	else if ($value < 0) return sprintf (gettext("<img src=\"/objects/step_gold.jpg\"> Has perdido %s monedas de oro.<br/><br/>"), abs ($value));
+	if ($value > 0) return sprintf (gettext("<img src=\"/skins/".$Skin."/objects/step_gold.jpg\"> Has ganado %s monedas de oro.<br/><br/>"), $value);
+	else if ($value < 0) return sprintf (gettext("<img src=\"/skins/".$Skin."/objects/step_gold.jpg\"> Has perdido %s monedas de oro.<br/><br/>"), abs ($value));
 } 
 
 
@@ -312,7 +350,7 @@ function getLvlBonus ($value) {
 		$end = $end + ($level*1000); 
 		if ($end <= $value) $level = $counter;
 	}
-	$lvlbonus['level'] = floor($level) +1;
+	$lvlbonus['level'] = $level;
 	$lvlbonus['bonus'] = floor ($lvlbonus['level']/2);
 	return $lvlbonus;
 }

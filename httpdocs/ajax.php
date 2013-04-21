@@ -88,12 +88,12 @@ if($action == "sell" && isset($_REQUEST['charid']) && $_REQUEST['charid'] > 0 &&
 	$chargod = $_REQUEST['chargod'];
 	$user_profile_id = $_REQUEST ['userid'];
 	
-	$fue = $player_classes[$charclass]['fue'] + $player_races[$charrace]['fue'] + $player_races[$chargod]['fue']; 
-	$des = $player_classes[$charclass]['des'] + $player_races[$charrace]['des'] + $player_races[$chargod]['des']; 
-	$con = $player_classes[$charclass]['con'] + $player_races[$charrace]['con'] + $player_races[$chargod]['con'];  
-	$int = $player_classes[$charclass]['int'] + $player_races[$charrace]['int'] + $player_races[$chargod]['int'];  
-	$sab = $player_classes[$charclass]['sab'] + $player_races[$charrace]['sab'] + $player_races[$chargod]['sab'];  
-	$car = $player_classes[$charclass]['car'] + $player_races[$charrace]['car'] + $player_races[$chargod]['car']; 
+	$fue = $player_classes[$charclass]['fue'] + $player_races[$charrace]['fue'] + $player_gods[$chargod]['fue']; 
+	$des = $player_classes[$charclass]['des'] + $player_races[$charrace]['des'] + $player_gods[$chargod]['des']; 
+	$con = $player_classes[$charclass]['con'] + $player_races[$charrace]['con'] + $player_gods[$chargod]['con'];  
+	$int = $player_classes[$charclass]['int'] + $player_races[$charrace]['int'] + $player_gods[$chargod]['int'];  
+	$sab = $player_classes[$charclass]['sab'] + $player_races[$charrace]['sab'] + $player_gods[$chargod]['sab'];  
+	$car = $player_classes[$charclass]['car'] + $player_races[$charrace]['car'] + $player_gods[$chargod]['car']; 
 
 	foreach ($items as $item) {
 		if ($item['name'] == $player_classes[$charclass]['weapon']) {
