@@ -9,8 +9,8 @@ INSTALACIÓN
 -----------
 
 - Copia /httpdocs/config.php.dist a /httpdocs/config.php y configura adecuadamente los datos de conexión a la base de datos y los datos de conexión a Facebook. 
-- Dar permisos de escritura al directorio /httpdocs/templates/templates_c. 
-- En el fichero /httpdocs/datas.php puedes modificar diferentes aspectos de las aventuras, como clases de personajes, razas u objeto mágicos que podrán comprar tus jugadores.
+- Crea y da permisos de escritura al directorio /httpdocs/skins/default/templates/templates_c. 
+- En el fichero /httpdocs/skins/default/datas.php puedes modificar diferentes aspectos de las aventuras, como clases de personajes, razas u objeto mágicos que podrán comprar tus jugadores.
 
 LICENCIA
 --------
